@@ -17,7 +17,8 @@ public class User {
     private String surname;
     private String patronymic;
     private Boolean blocked;
-    private Long role;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Role> role = new ArrayList<>();
 
 
 
