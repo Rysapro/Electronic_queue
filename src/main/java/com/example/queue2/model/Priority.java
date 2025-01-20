@@ -12,4 +12,6 @@ public class Priority {
     private Long id;
     private String name;
     private Long levelPriority;
+
+
 }
