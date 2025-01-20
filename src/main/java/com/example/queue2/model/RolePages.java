@@ -6,13 +6,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class RolePages {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Role> roleId = new ArrayList<>();
+    private Queue<Role> roleId = new LinkedList<>();
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Page> pageId = new ArrayList<>();
+    private Queue<Page> pageId = new LinkedList<>();
 }
