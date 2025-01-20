@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "placeOfCustomsClearence", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
     private String name;
     private String surname;
