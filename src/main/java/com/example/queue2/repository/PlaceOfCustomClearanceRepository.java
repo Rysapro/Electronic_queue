@@ -1,4 +1,4 @@
-package com.example.queue2.model.repository;
+package com.example.queue2.repository;
 
 import com.example.queue2.model.PlaceOfCustomsClearance;
 import com.example.queue2.model.dto.PlaceOfCustomsClearanceDto;

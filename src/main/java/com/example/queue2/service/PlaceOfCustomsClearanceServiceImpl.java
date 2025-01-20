@@ -1,8 +1,7 @@
 package com.example.queue2.service;
 
-import com.example.queue2.model.PlaceOfCustomsClearance;
 import com.example.queue2.model.dto.PlaceOfCustomsClearanceDto;
-import com.example.queue2.model.repository.PlaceOfCustomClearanceRepository;
+import com.example.queue2.repository.PlaceOfCustomClearanceRepository;
 
 public class PlaceOfCustomsClearanceServiceImpl implements PlaceOfCustomClearanceService{
 
