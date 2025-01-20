@@ -17,7 +17,7 @@ public class Window {
     private List<Provision> provision = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> operatorId = new ArrayList<>();
-    @OneToMany(mappedBy = "placeoOfCustomsClearane", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceOfCustomsClearance> placeOfCustomsClearances = new ArrayList<>();
 
 
