@@ -21,10 +21,7 @@ public class Track {
     private String tableName;
     private String operationType;
     private Long recordId;
-//    @JdbcTypeCode(SQLType.JSON)
-//    private String infoChangedData;
-//    @JdbcTypeCode(SQLType.JSON)
-//    private String infoOldData;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Queue<User> changedBy = new LinkedList<>();
     private Timestamp changedTime;
