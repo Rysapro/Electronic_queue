@@ -1,8 +1,9 @@
 package com.example.queue2.repository;
 
-import com.example.queue2.model.Information;
-import com.example.queue2.model.dto.InformationDto;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.queue2.domain.model.Information;
+import com.example.queue2.repository.base.BaseRepository;
+import org.springframework.stereotype.Repository;
 
-public interface InformationRepository extends JpaRepository<InformationDto, Long> {
+@Repository
+public interface InformationRepository extends BaseRepository<Information> {
 }

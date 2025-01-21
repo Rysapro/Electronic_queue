@@ -1,4 +1,4 @@
-package com.example.queue2.model;
+package com.example.queue2.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,9 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Information {
+public class Priority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String declaretion;
+    private String name;
+    private Long levelPriority;
+
+
 }

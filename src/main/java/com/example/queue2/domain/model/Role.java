@@ -1,4 +1,4 @@
-package com.example.queue2.model;
+package com.example.queue2.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
