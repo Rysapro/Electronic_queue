@@ -14,18 +14,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<PlaceOfCustomsClearance> placeOfCustomsClearance = new LinkedList<>();
+    private List<PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
     private String name;
     private String surname;
     private String patronymic;
     private Boolean blocked;
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Role> role = new LinkedList<>();
+    private List<Role> role = new ArrayList<>();
 
     public User() {
     }
 
-    public User(Queue<PlaceOfCustomsClearance> placeOfCustomsClearance, String name, String surname, String patronymic, Boolean blocked, Queue<Role> role) {
+    public User(List<PlaceOfCustomsClearance> placeOfCustomsClearance, String name, String surname, String patronymic, Boolean blocked, List<Role> role) {
         this.placeOfCustomsClearance = placeOfCustomsClearance;
         this.name = name;
         this.surname = surname;
@@ -42,11 +42,11 @@ public class User {
         this.id = id;
     }
 
-    public Queue<PlaceOfCustomsClearance> getPlaceOfCustomsClearance() {
+    public List<PlaceOfCustomsClearance> getPlaceOfCustomsClearance() {
         return placeOfCustomsClearance;
     }
 
-    public void setPlaceOfCustomsClearance(Queue<PlaceOfCustomsClearance> placeOfCustomsClearance) {
+    public void setPlaceOfCustomsClearance(List<PlaceOfCustomsClearance> placeOfCustomsClearance) {
         this.placeOfCustomsClearance = placeOfCustomsClearance;
     }
 
@@ -82,11 +82,11 @@ public class User {
         this.blocked = blocked;
     }
 
-    public Queue<Role> getRole() {
+    public List<Role> getRole() {
         return role;
     }
 
-    public void setRole(Queue<Role> role) {
+    public void setRole(List<Role> role) {
         this.role = role;
     }
 

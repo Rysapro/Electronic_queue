@@ -15,7 +15,7 @@ public class Provision {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<PlaceOfCustomsClearance> placeOfCustomsClearance = new LinkedList<>();
+    private List<PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
     private Character code;
 
 }

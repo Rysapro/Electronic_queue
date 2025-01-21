@@ -13,8 +13,8 @@ import java.util.Queue;
 public class RolePages {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Role> roleId = new LinkedList<>();
+    private List<Role> roleId = new ArrayList<>();
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Page> pageId = new LinkedList<>();
+    private List<Page> pageId = new ArrayList<>();
 }

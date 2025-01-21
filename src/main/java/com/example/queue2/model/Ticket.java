@@ -17,18 +17,18 @@ public class Ticket {
     private Timestamp timeOfCreateTicket;
     private Long number;
     @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<TicketStatus> ticketStatusList = new LinkedList<>();
+    private List<TicketStatus> ticketStatusList = new ArrayList<>();
     private Timestamp timeOfFinished;
     private Timestamp processingTime;
     @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Priority> priority = new LinkedList<>();
+    private List<Priority> priority = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<User> updatedBy = new LinkedList<>();
+    private List<User> updatedBy = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<User> operatorId = new LinkedList<>();
+    private List<User> operatorId = new ArrayList<>();
     @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue <PlaceOfCustomsClearance> placeOfCustomsClearance = new LinkedList<>();
+    private List <PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
     @OneToMany(mappedBy = "provision", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Provision> provision = new LinkedList<>();
+    private List<Provision> provision = new ArrayList<>();
     private Long information;
 }

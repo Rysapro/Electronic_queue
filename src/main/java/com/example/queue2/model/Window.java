@@ -14,13 +14,13 @@ public class Window {
     private Long id;
     private String number;
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Ticket> processedTicket = new LinkedList<>();
+    private List<Ticket> processedTicket = new ArrayList<>();
     @OneToMany(mappedBy = "provision", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<Provision> provision = new LinkedList<>();
+    private List<Provision> provision = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<User> operatorId = new LinkedList<>();
+    private List<User> operatorId = new ArrayList<>();
     @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Queue<PlaceOfCustomsClearance> placeOfCustomsClearances = new LinkedList<>();
+    private List<PlaceOfCustomsClearance> placeOfCustomsClearances = new ArrayList<>();
 
 
 }
