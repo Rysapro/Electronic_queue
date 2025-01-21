@@ -1,13 +1,12 @@
-package com.example.queue2.service;
+package com.example.queue2.service.impl;
 
-import com.example.queue2.model.PlaceOfCustomsClearance;
 import com.example.queue2.model.dto.PlaceOfCustomsClearanceDto;
 import com.example.queue2.repository.PlaceOfCustomsClearanceRepository;
+import com.example.queue2.service.PlaceOfCustomClearanceService;
 
 import java.util.List;
-import java.util.Optional;
 
-public class PlaceOfCustomsClearanceServiceImpl implements PlaceOfCustomClearanceService{
+public class PlaceOfCustomsClearanceServiceImpl implements PlaceOfCustomClearanceService {
 
     private final PlaceOfCustomsClearanceRepository placeOfCustomClearanceRepository;
 
@@ -29,6 +28,7 @@ public class PlaceOfCustomsClearanceServiceImpl implements PlaceOfCustomClearanc
     public List<PlaceOfCustomsClearanceDto> getAll() {
         return placeOfCustomClearanceRepository.findAll();
     }
+
 
 
 }
