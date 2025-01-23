@@ -18,4 +18,5 @@ public class RoleController extends BaseController<Role, RoleService> {
         super(roleService);
         this.roleService = roleService;
     }
+
 }

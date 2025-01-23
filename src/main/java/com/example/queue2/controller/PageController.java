@@ -15,4 +15,5 @@ public class PageController extends BaseController<Page, PageService> {
     public PageController(PageService pageService) {
         super(pageService);
     }
+
 }

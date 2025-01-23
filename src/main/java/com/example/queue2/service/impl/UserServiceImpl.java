@@ -15,4 +15,5 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRepository>implem
         super(userRepository);
         this.userRepository = userRepository;
     }
+
 }

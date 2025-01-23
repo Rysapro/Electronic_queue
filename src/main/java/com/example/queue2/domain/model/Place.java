@@ -22,4 +22,5 @@ public class Place extends BaseEntity {
     @Column(name ="code", unique = true)
     private Character code;
 
+
 }

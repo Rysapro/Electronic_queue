@@ -17,5 +17,4 @@ public class TicketController extends BaseController<Ticket, TicketService> {
         this.ticketService = ticketService;
     }
 
-//
 }

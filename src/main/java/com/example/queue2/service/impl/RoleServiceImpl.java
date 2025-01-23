@@ -14,4 +14,5 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleRepository> imple
         super(roleRepository);
         this.roleRepository = roleRepository;
     }
+
 }

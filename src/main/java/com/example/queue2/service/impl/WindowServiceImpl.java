@@ -14,4 +14,5 @@ public class WindowServiceImpl extends BaseServiceImpl<Window, WindowRepository>
         super(windowRepository);
         this.windowRepository = windowRepository;
     }
+
 }

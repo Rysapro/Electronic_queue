@@ -18,4 +18,5 @@ public class PriorityServiceImpl extends BaseServiceImpl<Priority, PriorityRepos
         super(priorityRepository);
         this.priorityRepository = priorityRepository;
     }
+
 }

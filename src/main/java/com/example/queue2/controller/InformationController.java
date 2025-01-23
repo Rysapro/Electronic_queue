@@ -18,4 +18,5 @@ public class InformationController extends BaseController<Information, Informati
         super(informationService);
         this.informationService = informationService;
     }
+
 }

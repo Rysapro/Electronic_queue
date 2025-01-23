@@ -20,4 +20,5 @@ public class TicketStatusServiceImpl extends BaseServiceImpl<TicketStatus, Ticke
         super(ticketStatusRepository);
         this.ticketStatusRepository = ticketStatusRepository;
     }
+
 }

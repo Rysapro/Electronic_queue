@@ -18,4 +18,5 @@ public class PlaceController extends BaseController<Place, PlaceService>{
         super(placeService);
         this.placeService = placeService;
     }
+
 }

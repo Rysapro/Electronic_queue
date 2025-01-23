@@ -21,6 +21,5 @@ public class Priority extends BaseEntity {
     @Column(name = "level", unique = true)
     private Long levelPriority;
 
-
 }
 

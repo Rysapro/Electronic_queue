@@ -14,5 +14,6 @@ public class ProvisionServiceImpl extends BaseServiceImpl<Provision, ProvisionRe
         super(provisionRepository);
         this.provisionRepository = provisionRepository;
     }
+
 }
 

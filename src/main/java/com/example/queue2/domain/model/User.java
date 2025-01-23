@@ -31,10 +31,9 @@ public class User extends BaseEntity {
     private Boolean blocked;
 
     @OneToMany
-    private List<Place> placeOfCustomsClearance = new ArrayList<>();
+    private List<Place> place = new ArrayList<>();
 
     @OneToMany
     private List<Role> role = new ArrayList<>();
-
 
 }

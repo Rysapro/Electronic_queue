@@ -17,4 +17,5 @@ public class UserController extends BaseController<User, UserService> {
         super(userService);
         this.userService = userService;
     }
+
 }

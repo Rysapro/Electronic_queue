@@ -18,4 +18,5 @@ public class PriorityController extends BaseController<Priority, PriorityService
         super(priorityService);
         this.priorityService = priorityService;
     }
+
 }

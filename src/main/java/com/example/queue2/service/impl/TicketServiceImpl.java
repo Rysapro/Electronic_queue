@@ -17,4 +17,5 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRepository>
         this.ticketRepository = ticketRepository;
     }
 
+
 }

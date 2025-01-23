@@ -17,4 +17,5 @@ public class TicketStatus extends BaseEntity {
 
     @Column(name = "name", unique = true)
     private String name;
+
 }

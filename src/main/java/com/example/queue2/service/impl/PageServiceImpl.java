@@ -15,4 +15,5 @@ public class PageServiceImpl extends BaseServiceImpl<Page, PageRepository> imple
         super(pageRepository);
         this.pageRepository = pageRepository;
     }
+
 }

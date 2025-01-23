@@ -15,4 +15,5 @@ public class InformationServiceImpl extends BaseServiceImpl<Information, Informa
         super(informationRepository);
         this.informationRepository = informationRepository;
     }
+
 }

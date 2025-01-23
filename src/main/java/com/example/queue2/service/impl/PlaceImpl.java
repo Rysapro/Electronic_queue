@@ -16,4 +16,5 @@ public class PlaceImpl extends BaseServiceImpl<Place, PlaceRepository> implement
         super(placeRepository);
         this.placeRepository = placeRepository;
     }
+
 }

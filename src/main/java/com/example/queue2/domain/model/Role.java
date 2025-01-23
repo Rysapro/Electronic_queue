@@ -26,8 +26,8 @@ public class Role extends BaseEntity {
     @JoinTable(
             name = "role_page",
             joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = { @JoinColumn(name = "page_id")}
-    )
+            inverseJoinColumns = { @JoinColumn(name = "page_id")})
     private List<Page> page = new ArrayList<>();
+
 
 }

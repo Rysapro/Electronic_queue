@@ -17,4 +17,5 @@ public class TicketStatusController extends BaseController<TicketStatus, TicketS
         super(ticketStatusService);
         this.ticketStatusService = ticketStatusService;
     }
+
 }

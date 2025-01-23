@@ -32,4 +32,5 @@ public class Window extends BaseEntity {
 
     @OneToMany
     private List<Place> place = new ArrayList<>();
+
 }

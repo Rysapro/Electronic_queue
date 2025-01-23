@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/provision")
-@Tag(name = "обеспечение")
+@Tag(name = "СВХ")
 public class ProvisionController extends BaseController<Provision, ProvisionService> {
     private final ProvisionService provisionService;
 
@@ -17,4 +17,5 @@ public class ProvisionController extends BaseController<Provision, ProvisionServ
         super(provisionService);
         this.provisionService = provisionService;
     }
+
 }
