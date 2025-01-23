@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/page")
-@Tag(name = "Страница")
+@Tag(name = "Страница(пагинация)")
 public class PageController extends BaseController<Page, PageService> {
 
     public PageController(PageService pageService) {

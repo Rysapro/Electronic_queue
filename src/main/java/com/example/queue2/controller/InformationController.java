@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/information")
-@Tag(name = "Информация")
+@Tag(name = "Декларация")
 public class InformationController extends BaseController<Information, InformationService> {
 
     private final InformationService informationService;

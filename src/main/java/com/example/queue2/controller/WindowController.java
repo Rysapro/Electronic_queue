@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/window")
-@Tag(name = "окно")
+@Tag(name = "Окно")
 public class WindowController extends BaseController<Window, WindowService> {
     private final WindowService windowService;
 

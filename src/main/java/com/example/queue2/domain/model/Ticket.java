@@ -42,8 +42,8 @@ public class Ticket extends BaseEntity {
     @OneToMany
     private List<Provision> provision = new ArrayList<>();
 
-    @Column(name = "info", unique = true)
-    private Long information;
+    @ManyToMany
+    private List<Information> information = new ArrayList<>();
 
 
 
