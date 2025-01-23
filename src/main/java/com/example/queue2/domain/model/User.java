@@ -1,103 +1,40 @@
-//package com.example.queue2.domain.model;
-//
-//import jakarta.persistence.*;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@Entity
-//public class User {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
-//    private String name;
-//    private String surname;
-//    private String patronymic;
-//    private Boolean blocked;
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Role> role = new ArrayList<>();
-//
-//    public User() {
-//    }
-//
-//    public User(List<PlaceOfCustomsClearance> placeOfCustomsClearance, String name, String surname, String patronymic, Boolean blocked, List<Role> role) {
-//        this.placeOfCustomsClearance = placeOfCustomsClearance;
-//        this.name = name;
-//        this.surname = surname;
-//        this.patronymic = patronymic;
-//        this.blocked = blocked;
-//        this.role = role;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public List<PlaceOfCustomsClearance> getPlaceOfCustomsClearance() {
-//        return placeOfCustomsClearance;
-//    }
-//
-//    public void setPlaceOfCustomsClearance(List<PlaceOfCustomsClearance> placeOfCustomsClearance) {
-//        this.placeOfCustomsClearance = placeOfCustomsClearance;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getSurname() {
-//        return surname;
-//    }
-//
-//    public void setSurname(String surname) {
-//        this.surname = surname;
-//    }
-//
-//    public String getPatronymic() {
-//        return patronymic;
-//    }
-//
-//    public void setPatronymic(String patronymic) {
-//        this.patronymic = patronymic;
-//    }
-//
-//    public Boolean getBlocked() {
-//        return blocked;
-//    }
-//
-//    public void setBlocked(Boolean blocked) {
-//        this.blocked = blocked;
-//    }
-//
-//    public List<Role> getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(List<Role> role) {
-//        this.role = role;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", placeOfCustomsClearance=" + placeOfCustomsClearance +
-//                ", name='" + name + '\'' +
-//                ", surname='" + surname + '\'' +
-//                ", patronymic='" + patronymic + '\'' +
-//                ", blocked=" + blocked +
-//                ", role=" + role +
-//                '}';
-//    }
-//}
+package com.example.queue2.domain.model;
+
+import com.example.queue2.domain.model.base.BaseEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class User extends BaseEntity {
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "patronymic")
+    private String patronymic;
+
+    @Column(name = "blocked")
+    private Boolean blocked;
+
+    @OneToMany
+    private List<Place> placeOfCustomsClearance = new ArrayList<>();
+
+    @OneToMany
+    private List<Role> role = new ArrayList<>();
+
+
+}

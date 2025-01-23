@@ -1,0 +1,7 @@
+package com.example.queue2.repository;
+
+import com.example.queue2.domain.model.Window;
+import com.example.queue2.repository.base.BaseRepository;
+
+public interface WindowRepository extends BaseRepository<Window> {
+}

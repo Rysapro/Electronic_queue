@@ -1,14 +1,33 @@
 package com.example.queue2.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.queue2.domain.model.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name="role")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role extends BaseEntity {
+
+    @Column(name = "name")
     private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "role_page",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = { @JoinColumn(name = "page_id")}
+    )
+    private List<Page> page = new ArrayList<>();
+
 }

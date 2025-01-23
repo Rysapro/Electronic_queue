@@ -1,32 +1,50 @@
-//package com.example.queue2.domain.model;
-//
-//import jakarta.persistence.*;
-//
-//import java.sql.Timestamp;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@Entity
-//public class Ticket {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    private Timestamp timeOfCreateTicket;
-//    private Long number;
-//    @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<TicketStatus> ticketStatusList = new ArrayList<>();
-//    private Timestamp timeOfFinished;
-//    private Timestamp processingTime;
-//    @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Priority> priority = new ArrayList<>();
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<User> updatedBy = new ArrayList<>();
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<User> operatorId = new ArrayList<>();
-//    @OneToMany(mappedBy = "placeOfCustomsClearance", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List <PlaceOfCustomsClearance> placeOfCustomsClearance = new ArrayList<>();
-//    @OneToMany(mappedBy = "provision", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Provision> provision = new ArrayList<>();
-//    private Long information;
-//}
+package com.example.queue2.domain.model;
+
+import com.example.queue2.domain.model.base.BaseEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "ticket")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Ticket extends BaseEntity {
+
+    private Timestamp timeOfCreateTicket;
+
+    @Column(name = "quantity", unique = true)
+    private Long number;
+
+    private Timestamp timeOfFinished;
+    private Timestamp processingTime;
+
+    @OneToMany
+    private List<Priority> priority = new ArrayList<>();
+
+    @OneToMany
+    private List<User> updatedBy = new ArrayList<>();
+
+    @OneToMany
+    private List<User> operatorId = new ArrayList<>();
+
+    @OneToMany
+    private List <Place> place = new ArrayList<>();
+
+    @OneToMany
+    private List<Provision> provision = new ArrayList<>();
+
+    @Column(name = "info", unique = true)
+    private Long information;
+
+
+
+}
