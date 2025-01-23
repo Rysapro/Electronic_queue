@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/ticket-status")
-@Tag(name="Статус о биллете")
+@Tag(name="Статус билета")
 public class TicketStatusController extends BaseController<TicketStatus, TicketStatusService> {
     private final TicketStatusService ticketStatusService;
 

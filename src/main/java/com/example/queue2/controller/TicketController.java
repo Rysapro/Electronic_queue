@@ -18,16 +18,5 @@ public class TicketController extends BaseController<Ticket, TicketService> {
         this.ticketService = ticketService;
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Ticket> updateTicket(
-//            @PathVariable Long id,
-//            @RequestBody Ticket ticket,
-//            @RequestParam Long userId // The ID of the user making the request
-//    ) {
-//        // Call the service to update the ticket
-//        Ticket updatedTicket = ticketService.updateTicket(id, ticket, userId);
-//
-//        // Return the updated ticket as a response
-//        return ResponseEntity.ok(updatedTicket);
-//    }
+
 }
