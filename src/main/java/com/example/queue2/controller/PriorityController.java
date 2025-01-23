@@ -1,6 +1,5 @@
 package com.example.queue2.controller;
 
-
 import com.example.queue2.controller.base.BaseController;
 import com.example.queue2.domain.model.Priority;
 import com.example.queue2.service.PriorityService;
