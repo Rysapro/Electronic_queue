@@ -1,22 +1,27 @@
 package com.example.queue2.service.base;
 
-import com.example.queue2.domain.model.base.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface BaseService<T extends BaseEntity> {
-    T create(T dto);
+public interface BaseService<ENTITY, REQUEST_DTO, RESPONSE_DTO> {
 
-    T findById(Long id);
+    RESPONSE_DTO create(REQUEST_DTO dto);
 
-    T update(T dto);
+    RESPONSE_DTO findById(Long id);
+
+    RESPONSE_DTO update(Long id, REQUEST_DTO dto);
 
     void deleteById(Long id);
 
-    List<T> findAll();
+    List<RESPONSE_DTO> findAll();
 
-    Page<T> findAllWithPagination(Pageable pageable);
+    Page<RESPONSE_DTO> findAllWithPagination(Pageable pageable);
+
+    ENTITY toEntity(REQUEST_DTO dto);
+
+    RESPONSE_DTO toDTO(ENTITY entity);
 }
+
 

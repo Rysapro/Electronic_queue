@@ -32,9 +32,6 @@ public class BaseEntity {
     @Column(name = "update_date")
     private LocalDateTime updateDate = LocalDateTime.now();
 
-    @Column(name = "archived")
-    private Boolean archived = false;
-
     @Transient
     protected String getTableName(BaseEntity entity) {
         Class<?> entityClass = entity.getClass();

@@ -1,6 +1,5 @@
 package com.example.queue2.controller.base;
 
-import com.example.queue2.domain.model.base.BaseEntity;
 import com.example.queue2.service.base.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public abstract class BaseController<ENTITY extends BaseEntity, SERVICE extends BaseService<ENTITY>> {
+public abstract class BaseController<
+        ENTITY,
+        REQUEST_DTO,
+        RESPONSE_DTO,
+        SERVICE extends BaseService<ENTITY, REQUEST_DTO, RESPONSE_DTO>> {
 
     protected final SERVICE baseService;
 
@@ -18,29 +21,28 @@ public abstract class BaseController<ENTITY extends BaseEntity, SERVICE extends 
     }
 
     @GetMapping("/findById/{id}")
-    public ENTITY findById(@PathVariable Long id){
-        return  baseService.findById(id);
+    public RESPONSE_DTO findById(@PathVariable Long id){
+        return baseService.findById(id);
     }
 
     @GetMapping("/findAll")
-    public List<ENTITY> findAll(){
+    public List<RESPONSE_DTO> findAll(){
         return baseService.findAll();
     }
 
     @GetMapping("/findAllWithPagination")
-    public Page<ENTITY> findAllWithPagination(@PageableDefault(5) Pageable pageable){
+    public Page<RESPONSE_DTO> findAllWithPagination(@PageableDefault(5) Pageable pageable){
         return baseService.findAllWithPagination(pageable);
     }
 
     @PostMapping("/save")
-    public ENTITY save(@RequestBody ENTITY model){
+    public RESPONSE_DTO save(@RequestBody REQUEST_DTO model){
         return baseService.create(model);
     }
 
     @PutMapping("/update/{id}")
-    public ENTITY update(@RequestBody ENTITY model, @PathVariable Long id){
-        model.setId(id);
-        return baseService.update(model);
+    public RESPONSE_DTO update(@RequestBody REQUEST_DTO model, @PathVariable Long id){
+        return baseService.update(id, model);
     }
 
     @DeleteMapping("/delete/{id}")
