@@ -1,5 +1,5 @@
-//package com.example.queue2.controller;
-//
+package com.example.queue2.controller;
+
 //import com.example.queue2.controller.base.BaseController;
 //import com.example.queue2.domain.model.Ticket;
 //import com.example.queue2.service.TicketService;
@@ -9,11 +9,9 @@
 //@RestController
 //@RequestMapping("/api/ticket")
 //@Tag(name = "билет")
-//public class TicketController extends BaseController<Ticket, TicketService> {
-//    private final TicketService ticketService;
+//public class TicketController extends BaseController<Ticket, TicketRequestDto, TicketResponseDto, TicketService> {
 //
 //    public TicketController(TicketService ticketService) {
 //        super(ticketService);
-//        this.ticketService = ticketService;
 //    }
 //}

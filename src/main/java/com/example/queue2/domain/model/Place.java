@@ -2,10 +2,7 @@ package com.example.queue2.domain.model;
 
 import com.example.queue2.domain.model.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "places")
@@ -21,5 +18,15 @@ public class Place extends BaseEntity {
     private String address;
     @Column(name ="code", unique = true)
     private Character code;
+
+    @ManyToOne
+    @JoinColumn(name = "provision_id")
+    private Provision provision;
+
+    public Place(String name, String address, Character code) {
+        this.name = name;
+        this.address = address;
+        this.code = code;
+    }
 
 }

@@ -1,5 +1,5 @@
-//package com.example.queue2.controller;
-//
+package com.example.queue2.controller;
+
 //import com.example.queue2.controller.base.BaseController;
 //import com.example.queue2.domain.model.User;
 //import com.example.queue2.service.UserService;
@@ -10,11 +10,9 @@
 //@RestController
 //@RequestMapping("/api/user")
 //@Tag(name = "Пользователь")
-//public class UserController extends BaseController<User, UserService> {
-//    private final UserService userService;
+//public class UserController extends BaseController<User, UserRequestDto, UserResponseDto, UserService> {
 //
 //    public UserController(UserService userService) {
 //        super(userService);
-//        this.userService = userService;
 //    }
 //}

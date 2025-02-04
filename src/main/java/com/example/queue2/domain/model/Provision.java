@@ -21,10 +21,12 @@ public class Provision extends BaseEntity {
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToMany
-    private List<Place> place = new ArrayList<>();
-
     @Column(name = "code", unique = true)
     private Character code;
 
+    @OneToMany(mappedBy = "provision", fetch = FetchType.LAZY)
+    private List<Place> place = new ArrayList<>();
+
+//    public <E> Provision(String name, List<E> es) {
+//    }
 }
