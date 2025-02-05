@@ -28,8 +28,14 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleRequestDto, RoleR
 
     @Override
     public RoleResponseDto toDTO(Role entity) {
-        return new RoleResponseDto(entity.getId(), entity.getName(),
-                entity.getPage().isEmpty() ? null : new RoleResponseDto.PageDto(entity.getPage().get(0).getId(),
-                        entity.getPage().get(0).getName()));
+        return new RoleResponseDto(
+                entity.getId(),
+                entity.getName(),
+                entity.getPage().isEmpty()
+                        ? null : new RoleResponseDto.PageDto(
+                                entity.getPage().get(0).getId(),
+                                entity.getPage().get(0).getName()
+                )
+        );
     }
 }

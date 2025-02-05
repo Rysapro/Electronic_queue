@@ -24,9 +24,8 @@ public class Provision extends BaseEntity {
     @Column(name = "code", unique = true)
     private Character code;
 
-    @OneToMany(mappedBy = "provision", fetch = FetchType.LAZY)
-    private List<Place> place = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place;
 
-//    public <E> Provision(String name, List<E> es) {
-//    }
 }

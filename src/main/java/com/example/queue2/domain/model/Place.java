@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "places")
+@Table(name = "place")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,14 +19,5 @@ public class Place extends BaseEntity {
     @Column(name ="code", unique = true)
     private Character code;
 
-    @ManyToOne
-    @JoinColumn(name = "provision_id")
-    private Provision provision;
-
-    public Place(String name, String address, Character code) {
-        this.name = name;
-        this.address = address;
-        this.code = code;
-    }
 
 }

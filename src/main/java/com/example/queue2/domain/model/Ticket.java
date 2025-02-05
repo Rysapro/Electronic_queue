@@ -27,23 +27,21 @@ public class Ticket extends BaseEntity {
     private Timestamp timeOfFinished;
     private Timestamp processingTime;
 
-    @OneToMany
-    private List<Priority> priority = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "priority")
+    private Priority priority;
 
-    @OneToMany
-    private List<User> updatedBy = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "users")
+    private User operatorId;
 
-    @OneToMany
-    private List<User> operatorId = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place;
 
-    @OneToMany
-    private List <Place> place = new ArrayList<>();
-
-    @OneToMany
-    private List<Provision> provision = new ArrayList<>();
-
-    @OneToMany
-    private List<Information> information = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "info")
+    private Information information;
 
 
 
