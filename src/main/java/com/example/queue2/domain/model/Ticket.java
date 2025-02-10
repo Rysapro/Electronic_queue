@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,24 +28,39 @@ public class Ticket extends BaseEntity {
     private Timestamp timeOfFinished;
     private Timestamp processingTime;
 
-    @OneToMany
-    private List<Priority> priority = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "priority")
+    private Priority priority;
 
-    @OneToMany
-    private List<User> updatedBy = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "users")
+    private User operatorId;
 
-    @OneToMany
-    private List<User> operatorId = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "provision")
+    private Provision provision;
 
-    @OneToMany
-    private List <Place> place = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place;
 
-    @OneToMany
-    private List<Provision> provision = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "info")
+    private Information information;
 
-    @OneToMany
-    private List<Information> information = new ArrayList<>();
+    @Column(name = "ticket_code")
+    private String ticketCode;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_status")
+    private TicketStatus ticketStatus;
 
 
+    @Column(name = "created_date", nullable = false)
+    private LocalDate createdDate;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDate.now();
+    }
 }

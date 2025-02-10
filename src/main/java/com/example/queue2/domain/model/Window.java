@@ -21,15 +21,15 @@ public class Window extends BaseEntity {
     @Column(name = "quantity", unique = true)
     private String number;
 
-    @OneToMany
-    private List<Ticket> processedTicket = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "ticket")
+    private Ticket processedTicket;
 
-    @OneToMany
-    private List<Provision> provision = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "users")
+    private User operatorId;
 
-    @OneToMany
-    private List<User> operatorId = new ArrayList<>();
-
-    @OneToMany
-    private List<Place> place = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place ;
 }

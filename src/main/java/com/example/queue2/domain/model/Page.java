@@ -22,7 +22,4 @@ public class Page extends BaseEntity {
     @Column(name = "name", unique = true)
     private String name;
 
-//    @ManyToMany(mappedBy = "page")
-//    private List<Role> roles = new ArrayList<>();
-
 }

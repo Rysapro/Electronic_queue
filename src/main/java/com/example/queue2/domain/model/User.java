@@ -30,11 +30,13 @@ public class User extends BaseEntity {
     @Column(name = "blocked")
     private Boolean blocked;
 
-    @OneToMany
-    private List<Place> placeOfCustomsClearance = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place;
 
-    @OneToMany
-    private List<Role> role = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "role")
+    private Role role;
 
 
 }

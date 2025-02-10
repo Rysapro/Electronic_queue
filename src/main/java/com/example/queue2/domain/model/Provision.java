@@ -18,13 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Provision extends BaseEntity {
 
-    @Column(name = "name", unique = true)
-    private String name;
-
-    @OneToMany
-    private List<Place> place = new ArrayList<>();
+    @Column(name = "provision_name", unique = true)
+    private String provisionName;
 
     @Column(name = "code", unique = true)
-    private Character code;
+    private String code;
+
+    @ManyToOne
+    @JoinColumn(name = "place")
+    private Place place;
 
 }

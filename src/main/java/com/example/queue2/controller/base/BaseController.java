@@ -1,5 +1,6 @@
 package com.example.queue2.controller.base;
 
+import com.example.queue2.controller.TicketController;
 import com.example.queue2.service.base.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,5 +49,9 @@ public abstract class BaseController<
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id){
         baseService.deleteById(id);
+    }
+
+    protected TicketController getService() {
+        return (TicketController) baseService;
     }
 }
