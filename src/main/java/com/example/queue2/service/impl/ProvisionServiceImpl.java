@@ -21,7 +21,7 @@ public class ProvisionServiceImpl extends BaseServiceImpl<Provision, ProvisionRe
     public Provision toEntity(ProvisionRequestDto dto) {
         Provision provision = new Provision();
         provision.setCode(dto.code());
-        provision.setName(dto.name());
+        provision.setProvisionName(dto.name());
         provision.setPlace(createEntityIfNotNull(
                 dto.placeId(), id ->  {
                     Place place = new Place();
@@ -39,12 +39,12 @@ public class ProvisionServiceImpl extends BaseServiceImpl<Provision, ProvisionRe
     public ProvisionResponseDto toDTO(Provision entity) {
         return new ProvisionResponseDto(
                 entity.getId(),
-                entity.getName(),
+                entity.getProvisionName(),
                 entity.getCode(),
                 entity.getPlace() != null
                         ? new ProvisionResponseDto.PlaceDto(
                                 entity.getPlace().getId(),
-                                entity.getPlace().getName()) : null
+                                entity.getPlace().getPlaceName()) : null
         );
     }
 }

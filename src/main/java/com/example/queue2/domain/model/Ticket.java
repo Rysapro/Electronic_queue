@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class Ticket extends BaseEntity {
     private User operatorId;
 
     @ManyToOne
+    @JoinColumn(name = "provision")
+    private Provision provision;
+
+    @ManyToOne
     @JoinColumn(name = "place")
     private Place place;
 
@@ -43,6 +48,19 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "info")
     private Information information;
 
+    @Column(name = "ticket_code", unique = true)
+    private String ticketCode;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_status")
+    private TicketStatus ticketStatus;
 
 
+    @Column(name = "created_date", nullable = false)
+    private LocalDate createdDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDate.now();
+    }
 }

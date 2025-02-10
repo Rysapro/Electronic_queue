@@ -23,6 +23,6 @@ public class PlaceServiceImpl extends BaseServiceImpl<Place, PlaceRequestDto, Pl
 
     @Override
     public PlaceResponseDto toDTO(Place entity) {
-        return new PlaceResponseDto(entity.getId(), entity.getName(), entity.getAddress(), entity.getCode());
+        return new PlaceResponseDto(entity.getId(), entity.getPlaceName(), entity.getAddress(), entity.getCode());
     }
 }

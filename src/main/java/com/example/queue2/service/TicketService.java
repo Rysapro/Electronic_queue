@@ -6,4 +6,5 @@ import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.service.base.BaseService;
 
 public interface TicketService extends BaseService<Ticket, TicketRequestDto, TicketResponseDto> {
+    String generateTicket(Long placeId, Long provisionId);
 }

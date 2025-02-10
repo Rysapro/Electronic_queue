@@ -12,12 +12,12 @@ import lombok.*;
 @AllArgsConstructor
 public class Place extends BaseEntity {
 
-    @Column(name = "name", unique = true)
-    private String name;
+    @Column(name = "place_name", unique = true)
+    private String placeName;
     @Column(name = "address", unique = true)
     private String address;
     @Column(name ="code", unique = true)
-    private Character code;
+    private String code;
 
 
 }

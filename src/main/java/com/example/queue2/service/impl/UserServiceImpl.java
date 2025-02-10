@@ -54,7 +54,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserR
                 entity.getBlocked(),
                 entity.getPlace() != null ? new UserResponseDto.PlaceDto(
                         entity.getPlace().getId(),
-                        entity.getPlace().getName()) : null
+                        entity.getPlace().getPlaceName()) : null
                 );
     }
 }

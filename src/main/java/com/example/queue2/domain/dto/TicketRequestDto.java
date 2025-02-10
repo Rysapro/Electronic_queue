@@ -10,6 +10,6 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.example.queue2.domain.model.Ticket}
  */
-public record TicketRequestDto(Long number, Long priorityId, Long userId , Long placeId,
+public record TicketRequestDto(Long number, Long priorityId, Long userId , Long placeId, Long provisionId,
                                Long informationId) implements Serializable {
 }
