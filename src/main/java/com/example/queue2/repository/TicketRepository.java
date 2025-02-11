@@ -1,13 +1,15 @@
 package com.example.queue2.repository;
 
+import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.repository.base.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface TicketRepository extends BaseRepository<Ticket> {
-    @Query("SELECT MAX(t.ticketCode) FROM Ticket t WHERE t.place.placeName = :placeName AND t.provision.provisionName = :provisionName" )
-    String findMaxTicketCodeFor(@Param("placeName") String placeName, @Param("provisionName") String provisionName);
+    @Query("SELECT MAX(t.ticketCode) FROM Ticket t WHERE t.place.code = :code AND t.provision.provisionName = :provisionName" )
+    String findMaxTicketCodeFor(@Param("code") String code, @Param("provisionName") String provisionName);
 }
