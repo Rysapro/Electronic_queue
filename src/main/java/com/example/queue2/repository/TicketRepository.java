@@ -12,4 +12,6 @@ import java.util.List;
 public interface TicketRepository extends BaseRepository<Ticket> {
     @Query("SELECT MAX(t.ticketCode) FROM Ticket t WHERE t.place.code = :code AND t.provision.provisionName = :provisionName" )
     String findMaxTicketCodeFor(@Param("code") String code, @Param("provisionName") String provisionName);
+
+
 }

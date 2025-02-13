@@ -2,14 +2,14 @@ package com.example.queue2.service.impl;
 
 import com.example.queue2.domain.dto.PageRequestDto;
 import com.example.queue2.domain.dto.PageResponseDto;
-import com.example.queue2.domain.model.Page;
+import com.example.queue2.domain.model.PageForRole;
 import com.example.queue2.repository.PageRepository;
 import com.example.queue2.service.PageService;
 import com.example.queue2.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PageServiceImpl extends BaseServiceImpl<Page, PageRequestDto, PageResponseDto, PageRepository>
+public class PageServiceImpl extends BaseServiceImpl<PageForRole, PageRequestDto, PageResponseDto, PageRepository>
         implements PageService {
 
     public PageServiceImpl(PageRepository pageRepository) {
@@ -17,12 +17,12 @@ public class PageServiceImpl extends BaseServiceImpl<Page, PageRequestDto, PageR
     }
 
     @Override
-    public Page toEntity(PageRequestDto dto) {
-        return new Page(dto.name());
+    public PageForRole toEntity(PageRequestDto dto) {
+        return new PageForRole(dto.name());
     }
 
     @Override
-    public PageResponseDto toDTO(Page entity) {
+    public PageResponseDto toDTO(PageForRole entity) {
         return new PageResponseDto(entity.getId(), entity.getName());
     }
 }
