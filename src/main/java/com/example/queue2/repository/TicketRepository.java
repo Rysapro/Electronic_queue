@@ -1,17 +1,16 @@
 package com.example.queue2.repository;
 
-import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.repository.base.BaseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public interface TicketRepository extends BaseRepository<Ticket> {
     @Query("SELECT MAX(t.ticketCode) FROM Ticket t WHERE t.place.code = :code AND t.provision.provisionName = :provisionName" )
     String findMaxTicketCodeFor(@Param("code") String code, @Param("provisionName") String provisionName);
 
-
+    @Query("SELECT t FROM Ticket t WHERE (:placeId IS NULL OR t.place.id= :placeId) AND (:informationId IS NULL OR t.information.id = :informationId) AND (:provisionId IS NULL OR t.provision.id = :provisionId) AND (:ticketStatusId IS NULL OR t.ticketStatus.id = :ticketStatusId)")
+    Page<Ticket> findAll(@Param("placeId") Long place, @Param("informationId") Long information, @Param("provisionId") Long provision, @Param("ticketStatusId") Long ticketStatus, Pageable pageable);
 }
