@@ -48,7 +48,7 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "info")
     private Information information;
 
-    @Column(name = "ticket_code", unique = true)
+    @Column(name = "ticket_code")
     private String ticketCode;
 
     @ManyToOne

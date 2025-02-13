@@ -11,20 +11,20 @@ import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto, TicketResponseDto, TicketRepository> implements TicketService {
 
     private final PlaceRepository placeRepository;
     private final ProvisionRepository provisionRepository;
     private final TicketStatusRepository ticketStatusRepository;
+    private final Counter counter;
 
-    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository) {
+    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository, Counter counter) {
         super(repo);
         this.placeRepository = placeRepository;
         this.provisionRepository = provisionRepository;
         this.ticketStatusRepository = ticketStatusRepository;
+        this.counter = counter;
     }
 
 
@@ -95,7 +95,8 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         TicketStatus status = ticketStatusRepository.findById(1L)
                 .orElseThrow(() -> new RuntimeException("Статус с ID 1 не найден"));
 
-        String ticketCode = generateTicketCode(place.getPlaceName(), provision.getProvisionName());
+        int ticketNumber = counter.getNextNumber();
+        String ticketCode = generateTicketCode(place.getPlaceName(), provision.getProvisionName(), ticketNumber);
 
         Ticket ticket = new Ticket();
         ticket.setTicketCode(ticketCode);
@@ -108,13 +109,12 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return ticketCode;
     }
 
-    private String generateTicketCode(String placeName, String provisionName) {
+    private String generateTicketCode(String placeName, String provisionName, int ticketNumber) {
         String lastTicketCode = repo.findMaxTicketCodeFor(placeName, provisionName);
         String numberPart = (lastTicketCode == null) ? "0" : lastTicketCode.replaceAll("\\D", "");
         int lastNumber = numberPart.isEmpty() ? 0 : Integer.parseInt(numberPart);
 
-        int newTicketNumber = lastNumber + 1;
-        return String.format("%s-%s-%04d", placeName, provisionName, newTicketNumber);
+        return String.format("%s-%s-%04d", placeName, provisionName, ticketNumber);
     }
 
 
