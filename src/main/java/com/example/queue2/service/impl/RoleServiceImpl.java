@@ -2,7 +2,7 @@ package com.example.queue2.service.impl;
 
 import com.example.queue2.domain.dto.RoleRequestDto;
 import com.example.queue2.domain.dto.RoleResponseDto;
-import com.example.queue2.domain.model.Page;
+import com.example.queue2.domain.model.PageForRole;
 import com.example.queue2.domain.model.Role;
 import com.example.queue2.repository.RoleRepository;
 import com.example.queue2.service.RoleService;
@@ -21,7 +21,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleRequestDto, RoleR
 
     @Override
     public Role toEntity(RoleRequestDto dto) {
-        return new Role(dto.name(), List.of(new Page(dto.page().name())));
+        return new Role(dto.name(), List.of(new PageForRole(dto.page().name())));
     }
 
 

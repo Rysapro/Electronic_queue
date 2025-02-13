@@ -1,10 +1,10 @@
 package com.example.queue2.domain.dto;
 
 
-import java.time.LocalDateTime;
+import com.example.queue2.domain.model.PageForRole;
 
 /**
- * DTO for {@link com.example.queue2.domain.model.Page}
+ * DTO for {@link PageForRole}
  */
 public record PageResponseDto(Long id, String name){
 }

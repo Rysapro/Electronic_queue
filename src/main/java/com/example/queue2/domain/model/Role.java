@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="role")
@@ -29,7 +27,7 @@ public class Role extends BaseEntity {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns =  @JoinColumn(name = "page_id")
     )
-    private List<Page> page = new ArrayList<>();
+    private List<PageForRole> page = new ArrayList<>();
 
 
 }
