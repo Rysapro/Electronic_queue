@@ -111,21 +111,21 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .orElseThrow(() -> new RuntimeException("Статус с ID 1 не найден"));
 
         int ticketNumber = counter.getNextNumber();
-        String ticketCode = generateTicketCode(place.getCode(), provision.getProvisionName(), ticketNumber);
+        String number = generateTicketCode(place.getCode(), provision.getProvisionName(), ticketNumber);
 
         Ticket ticket = new Ticket();
-        ticket.setTicketCode(ticketCode);
+        ticket.setNumber(number);
         ticket.setPlace(place);
         ticket.setProvision(provision);
         ticket.setTicketStatus(status);
 
         repo.save(ticket);
 
-        return ticketCode;
+        return number;
     }
 
 
-    private String generateTicketCode(String code, String provisionName, int ticketNumber) {
+    public String generateTicketCode(String code, String provisionName, int ticketNumber) {
         String lastTicketCode = repo.findMaxTicketCodeFor(code, provisionName);
         String numberPart = (lastTicketCode == null) ? "0" : lastTicketCode.replaceAll("\\D", "");
         int lastNumber = numberPart.isEmpty() ? 0 : Integer.parseInt(numberPart);
@@ -146,10 +146,10 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         }
     }
 
-    private TicketResponseDto mapToTicketResponseDto(Ticket ticket){
+    public TicketResponseDto mapToTicketResponseDto(Ticket ticket){
         return new TicketResponseDto(
-                null,
-                null,
+                ticket.getId(),
+                ticket.getNumber(),
                 null,
                 null,
                 ticket.getPlace() != null

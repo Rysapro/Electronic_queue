@@ -23,7 +23,7 @@ public class Ticket extends BaseEntity {
     private Timestamp timeOfCreateTicket;
 
     @Column(name = "quantity")
-    private Long number;
+    private String number;
 
     private Timestamp timeOfFinished;
     private Timestamp processingTime;

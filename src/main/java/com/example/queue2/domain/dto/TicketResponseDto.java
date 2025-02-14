@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.example.queue2.domain.model.Ticket}
  */
-public record TicketResponseDto(Long id, Long number, PriorityDto priority, UserDto operatorId, PlaceDto place,
+public record TicketResponseDto(Long id, String number, PriorityDto priority, UserDto operatorId, PlaceDto place,
                                 InformationDto information, ProvisionDto provision, TicketStatusDto ticketStatus) implements Serializable {
 
     public record PriorityDto(Long id, String name) implements Serializable {
