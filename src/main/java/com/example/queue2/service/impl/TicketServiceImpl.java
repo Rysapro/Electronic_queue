@@ -7,8 +7,12 @@ import com.example.queue2.repository.PlaceRepository;
 import com.example.queue2.repository.ProvisionRepository;
 import com.example.queue2.repository.TicketRepository;
 import com.example.queue2.repository.TicketStatusRepository;
+import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,13 +22,18 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     private final ProvisionRepository provisionRepository;
     private final TicketStatusRepository ticketStatusRepository;
     private final Counter counter;
+    private final BaseRepository baseRepository;
+    private final TicketRepository ticketRepository;
 
-    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository, Counter counter) {
+
+    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository, Counter counter, @Qualifier("baseRepository") BaseRepository baseRepository, TicketRepository ticketRepository) {
         super(repo);
         this.placeRepository = placeRepository;
         this.provisionRepository = provisionRepository;
         this.ticketStatusRepository = ticketStatusRepository;
         this.counter = counter;
+        this.baseRepository = baseRepository;
+        this.ticketRepository = ticketRepository;
     }
 
 
@@ -82,7 +91,13 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                         entity.getPlace().getPlaceName()) : null,
                 entity.getInformation() != null ? new TicketResponseDto.InformationDto(
                         entity.getInformation().getId(),
-                        entity.getInformation().getDeclaration()) : null
+                        entity.getInformation().getDeclaration()) : null,
+                entity.getProvision() != null ? new TicketResponseDto.ProvisionDto(
+                        entity.getProvision().getId(),
+                        entity.getProvision().getProvisionName()) : null,
+                entity.getTicketStatus() != null ? new TicketResponseDto.TicketStatusDto(
+                        entity.getTicketStatus().getId(),
+                        entity.getTicketStatus().getName()) : null
 
         );
     }
@@ -109,6 +124,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return ticketCode;
     }
 
+
     private String generateTicketCode(String code, String provisionName, int ticketNumber) {
         String lastTicketCode = repo.findMaxTicketCodeFor(code, provisionName);
         String numberPart = (lastTicketCode == null) ? "0" : lastTicketCode.replaceAll("\\D", "");
@@ -117,5 +133,38 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return String.format("%s-%s-%04d", code, provisionName, ticketNumber);
     }
 
+    //пагинация
+
+    @Override
+    public Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId, Long ticketStatusId, Pageable pageable) {
+        if (placeId == null && informationId == null && provisionId == null && ticketStatusId == null){
+            return Page.empty(pageable);
+
+        } else {
+            return ticketRepository.findAll(placeId, informationId, provisionId, ticketStatusId, pageable)
+                    .map(this::mapToTicketResponseDto);
+        }
+    }
+
+    private TicketResponseDto mapToTicketResponseDto(Ticket ticket){
+        return new TicketResponseDto(
+                null,
+                null,
+                null,
+                null,
+                ticket.getPlace() != null
+                        ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getPlaceName())
+                        : null,
+                ticket.getInformation() != null
+                        ? new TicketResponseDto.InformationDto(ticket.getInformation().getId(), ticket.getInformation().getDeclaration())
+                        : null,
+                ticket.getProvision() != null
+                        ? new TicketResponseDto.ProvisionDto(ticket.getProvision().getId(), ticket.getProvision().getProvisionName())
+                        : null,
+                ticket.getTicketStatus() != null
+                        ? new TicketResponseDto.TicketStatusDto(ticket.getTicketStatus().getId(), ticket.getTicketStatus().getName())
+                        : null
+        );
+    }
 
 }
