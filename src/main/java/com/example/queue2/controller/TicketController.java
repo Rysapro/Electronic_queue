@@ -41,7 +41,20 @@ public class TicketController extends BaseController<Ticket, TicketRequestDto, T
 
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        Page<TicketResponseDto> tickets = baseService.getTickets(placeId, informationId, provisionId, ticketStatusId, pageable);
+        Page<TicketResponseDto> tickets = baseService.getTickets(placeId, informationId,
+                provisionId, ticketStatusId, pageable);
+        return ResponseEntity.ok(tickets);
+    }
+
+    @GetMapping("/page_place")
+    public ResponseEntity<Page<TicketResponseDto>> getPlace(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) Long placeId
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<TicketResponseDto> tickets = baseService.getPlaceId(placeId, pageable);
         return ResponseEntity.ok(tickets);
     }
 
