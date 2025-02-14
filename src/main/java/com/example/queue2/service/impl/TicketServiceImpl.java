@@ -136,7 +136,8 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     //пагинация
 
     @Override
-    public Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId, Long ticketStatusId, Pageable pageable) {
+    public Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,
+                                              Long ticketStatusId, Pageable pageable) {
         if (placeId == null && informationId == null && provisionId == null && ticketStatusId == null){
             return Page.empty(pageable);
 
@@ -145,6 +146,8 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                     .map(this::mapToTicketResponseDto);
         }
     }
+
+
 
     public TicketResponseDto mapToTicketResponseDto(Ticket ticket){
         return new TicketResponseDto(
@@ -166,5 +169,19 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                         : null
         );
     }
+
+    //возвращает талоны со статусом pending по текущий день
+
+    @Override
+    public Page<TicketResponseDto> getPlaceId(Long placeId, Pageable pageable) {
+        if(placeId == null){
+            return Page.empty(pageable);
+        } else{
+            return ticketRepository.findPlace(placeId, pageable)
+                    .map(this::mapToTicketResponseDto);
+        }
+    }
+
+
 
 }

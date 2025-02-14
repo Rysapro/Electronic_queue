@@ -9,5 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface TicketService extends BaseService<Ticket, TicketRequestDto, TicketResponseDto> {
     String generateTicket(Long placeId, Long provisionId);
-    Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId, Long ticketStatusId, Pageable pageable);
+    Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,
+                                       Long ticketStatusId, Pageable pageable);
+    Page<TicketResponseDto> getPlaceId(Long placeId, Pageable pageable);
 }
