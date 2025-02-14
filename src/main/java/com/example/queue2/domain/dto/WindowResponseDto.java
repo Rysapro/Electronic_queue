@@ -9,7 +9,7 @@ public record WindowResponseDto(Long id, String number , PlaceDto place, TicketD
 
     public record PlaceDto(Long id, String name) implements Serializable {
     }
-    public record TicketDto(Long id, Long number) implements Serializable {
+    public record TicketDto(Long id, String number) implements Serializable {
     }
     public record UserDto(Long id, String name) implements Serializable {
     }
