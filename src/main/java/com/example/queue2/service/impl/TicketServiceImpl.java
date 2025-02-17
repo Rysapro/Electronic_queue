@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto, TicketResponseDto, TicketRepository> implements TicketService {
 
@@ -173,13 +176,39 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     //возвращает талоны со статусом pending по текущий день
 
     @Override
-    public Page<TicketResponseDto> getPlaceId(Long placeId, Pageable pageable) {
-        if(placeId == null){
+    public Page<TicketResponseDto> getPlaceId(Long placeId, Long ticketStatusId, Pageable pageable) {
+        if(placeId == null && ticketStatusId == null){
             return Page.empty(pageable);
         } else{
-            return ticketRepository.findPlace(placeId, pageable)
-                    .map(this::mapToTicketResponseDto);
+            return ticketRepository.findPlace(placeId, ticketStatusId, pageable)
+                    .map(this::mapToTicketResponseDto2);
         }
+    }
+
+
+
+    public TicketResponseDto mapToTicketResponseDto2(Ticket ticket){
+        return new TicketResponseDto(
+                ticket.getId(),
+                ticket.getNumber(),
+                null,
+                null,
+                ticket.getPlace() != null
+                        ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getPlaceName())
+                        : null,
+                null,
+                null,
+                null
+        );
+    }
+
+    //возврат всех талонов Горит без пагинации
+    @Override
+    public List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId) {
+        return ticketRepository.findByPlaceId(placeId, ticketStatusId)
+                .stream()
+                .map(this::mapToTicketResponseDto)
+                .collect(Collectors.toList());
     }
 
 
