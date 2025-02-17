@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface TicketRepository extends BaseRepository<Ticket> {
     @Query("SELECT MAX(t.ticketCode) FROM Ticket t WHERE t.place.code = :code AND t.provision.provisionName = :provisionName" )
     String findMaxTicketCodeFor(@Param("code") String code, @Param("provisionName") String provisionName);
@@ -19,6 +21,13 @@ public interface TicketRepository extends BaseRepository<Ticket> {
                          @Param("provisionId") Long provision, @Param("ticketStatusId") Long ticketStatus,
                          Pageable pageable);
 
-    @Query("SELECT t FROM Ticket t WHERE (:placeId IS NULL OR t.place.id= :placeId)")
-    Page<Ticket> findPlace(@Param("placeId") Long place, Pageable pageable);
+    @Query("SELECT t FROM Ticket t WHERE (:placeId IS NULL OR t.place.id= :placeId)" +
+            "AND (:ticketStatusId IS NULL OR t.ticketStatus.id = :ticketStatusId)" +
+            "AND t.createdDate = CURRENT_DATE")
+    Page<Ticket> findPlace(@Param("placeId") Long place, @Param("ticketStatusId") Long ticketStatus,
+                           Pageable pageable);
+
+    @Query("SELECT t FROM Ticket t WHERE (:placeId IS NULL OR t.place.id= :placeId)"+
+            "AND (:ticketStatusId IS NULL OR t.ticketStatus.id = :ticketStatusId)")
+    List<Ticket> findByPlaceId(@Param("placeId") Long place, @Param("ticketStatusId") Long ticketStatus);
 }

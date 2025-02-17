@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/ticket")
 @Tag(name = "билет")
@@ -46,16 +48,25 @@ public class TicketController extends BaseController<Ticket, TicketRequestDto, T
         return ResponseEntity.ok(tickets);
     }
 
-    @GetMapping("/page_place")
+    @GetMapping("/page_place_for_today")
     public ResponseEntity<Page<TicketResponseDto>> getPlace(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(required = false) Long placeId
+            @RequestParam(required = false) Long placeId,
+            @RequestParam(required = false) Long ticketStatusId
     ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        Page<TicketResponseDto> tickets = baseService.getPlaceId(placeId, pageable);
+        Page<TicketResponseDto> tickets = baseService.getPlaceId(placeId, ticketStatusId, pageable);
         return ResponseEntity.ok(tickets);
+    }
+
+    @GetMapping("/get_placeId_not_page")
+    public List<TicketResponseDto> getAllPlace(
+            @RequestParam Long placeId,
+            @RequestParam Long ticketStatusId
+    ){
+        return baseService.getAllPlaceId(placeId, ticketStatusId);
     }
 
 }
