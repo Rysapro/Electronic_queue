@@ -156,8 +156,12 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return new TicketResponseDto(
                 ticket.getId(),
                 ticket.getNumber(),
-                null,
-                null,
+                ticket.getPriority() != null
+                        ? new TicketResponseDto.PriorityDto(ticket.getId(), ticket.getPriority().getName())
+                        : null,
+                ticket.getOperatorId() != null
+                        ? new TicketResponseDto.UserDto(ticket.getId(), ticket.getOperatorId().getName())
+                        : null,
                 ticket.getPlace() != null
                         ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getPlaceName())
                         : null,
@@ -181,28 +185,12 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
             return Page.empty(pageable);
         } else{
             return ticketRepository.findPlace(placeId, ticketStatusId, pageable)
-                    .map(this::mapToTicketResponseDto2);
+                    .map(this::mapToTicketResponseDto);
         }
     }
 
 
-
-    public TicketResponseDto mapToTicketResponseDto2(Ticket ticket){
-        return new TicketResponseDto(
-                ticket.getId(),
-                ticket.getNumber(),
-                null,
-                null,
-                ticket.getPlace() != null
-                        ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getPlaceName())
-                        : null,
-                null,
-                null,
-                null
-        );
-    }
-
-    //возврат всех талонов Горит без пагинации
+    //возврат всех талонов по placeId со статусом горит
     @Override
     public List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId) {
         return ticketRepository.findByPlaceId(placeId, ticketStatusId)
