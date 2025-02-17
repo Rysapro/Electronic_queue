@@ -61,7 +61,7 @@ public class TicketController extends BaseController<Ticket, TicketRequestDto, T
         return ResponseEntity.ok(tickets);
     }
 
-    @GetMapping("/get_placeId_not_page")
+    @GetMapping("/get_all_placeId")
     public List<TicketResponseDto> getAllPlace(
             @RequestParam Long placeId,
             @RequestParam Long ticketStatusId
