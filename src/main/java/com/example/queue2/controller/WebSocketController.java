@@ -26,4 +26,17 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
         String ticketCode = baseService.generateTicket(requestDto.placeId(), requestDto.provisionId());
         return "{\"response\" : \"" + ticketCode+  "\"}";
     }
+    @MessageMapping("/updateTicket")
+    @SendTo("/topic/ticket")
+    public String handleUpdateTicketEvent(TicketResponseDto responseDto) {
+        String response = baseService.updateTicket(responseDto.id(), responseDto.place().id(), responseDto.priority().id(), responseDto.ticketStatus().id());
+        return "{\"response\" : \"" + response +  "\"}";
+    }
+
+    @MessageMapping("/deleteTicket")
+    @SendTo("/topic/ticket")
+    public String handleDeleteTicketEvent(TicketResponseDto responseDto) {
+        baseService.deleteTicketById(responseDto.id());
+        return "{\"response\" : \"Билет удалён\"}";
+    }
 }
