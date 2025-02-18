@@ -10,6 +10,7 @@ import com.example.queue2.repository.TicketStatusRepository;
 import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -199,6 +200,6 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .collect(Collectors.toList());
     }
 
-
+    
 
 }
