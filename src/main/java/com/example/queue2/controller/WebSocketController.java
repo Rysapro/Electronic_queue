@@ -5,8 +5,6 @@ import com.example.queue2.domain.dto.TicketRequestDto;
 import com.example.queue2.domain.dto.TicketResponseDto;
 import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.service.TicketService;
-import com.example.queue2.service.base.BaseService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -32,7 +30,6 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
         String response = baseService.updateTicket(responseDto.id(), responseDto.place().id(), responseDto.priority().id(), responseDto.ticketStatus().id());
         return "{\"response\" : \"" + response +  "\"}";
     }
-
     @MessageMapping("/deleteTicket")
     @SendTo("/topic/ticket")
     public String handleDeleteTicketEvent(TicketResponseDto responseDto) {
