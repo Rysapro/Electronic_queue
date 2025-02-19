@@ -11,14 +11,6 @@
 <body>
 <h2>Генерация талона</h2>
 
-<!-- Форма для ввода ID для обновления -->
-<div id="updateSection">
-    <label>Введите ID талона для обновления:</label>
-    <input type="number" id="ticketId" required>
-    <button onclick="fetchTicketData()">Получить данные талона</button>
-</div>
-
-<!-- Форма для создания талона -->
 <div id="createTicketSection">
     <label>Place ID:</label>
     <input type="number" id="placeId" required>
@@ -28,36 +20,13 @@
     <input type="number" id="provisionId" required>
     <br><br>
 
-    <label>Ticket Status ID:</label>
-    <input type="number" id="ticketStatusId" required>
-    <br><br>
-
     <button onclick="sendTicket()">Создать талон</button>
+    <button onclick="updateTicket()">Обновить талон</button>
+    <button onclick="deleteTicket()">Удалить талон</button>
+    <button onclick="saveUpdatedTicket()" style="display: none;" id="saveBtn">Сохранить изменения</button>
+
+
 </div>
-
-<!-- Форма для обновления данных -->
-<div id="updateFields" style="display: none;">
-    <h3>Редактирование талона</h3>
-
-    <label>Place ID:</label>
-    <input type="number" id="newPlaceId" required>
-    <br><br>
-
-    <label>Provision ID:</label>
-    <input type="number" id="newProvisionId" required>
-    <br><br>
-
-    <label>Ticket Status ID:</label>
-    <input type="number" id="newTicketStatusId" required>
-    <br><br>
-
-    <button onclick="sendUpdateTicket()">Обновить талон</button>
-    <button onclick="cancelUpdate()">Отменить обновление</button>
-</div>
-
-<!-- Кнопка для удаления талона -->
-<button onclick="deleteTicket()">Удалить талон</button>
-
 <p id="response"></p>
 </body>
 </html>
