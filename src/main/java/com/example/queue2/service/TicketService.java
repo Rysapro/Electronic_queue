@@ -11,9 +11,12 @@ import java.util.List;
 
 public interface TicketService extends BaseService<Ticket, TicketRequestDto, TicketResponseDto> {
     String generateTicket(Long placeId, Long provisionId);
+    String updateTicket(Long id, Long placeId, Long provisionId, Long ticketStatusId);
+    public void deleteTicketById(Long id);
     Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,
                                        Long ticketStatusId, Pageable pageable);
     Page<TicketResponseDto> getPlaceId(Long placeId, Long ticketStatusId, Pageable pageable);
 
     List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId);
+
 }

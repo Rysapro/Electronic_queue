@@ -10,6 +10,7 @@ import com.example.queue2.repository.TicketStatusRepository;
 import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -136,7 +137,44 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return String.format("%s-%s-%04d", code, provisionName, ticketNumber);
     }
 
+    @Override
+    public String updateTicket(Long id, Long placeId, Long provisionId, Long ticketStatusId) {
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден"));
+
+        if (placeId != null) {
+            Place place = placeRepository.findById(placeId)
+                    .orElseThrow(() -> new RuntimeException("МТО не найдено"));
+            ticket.setPlace(place);
+        }
+
+        if (provisionId != null) {
+            Provision provision = provisionRepository.findById(provisionId)
+                    .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
+            ticket.setProvision(provision);
+        }
+
+        if (ticketStatusId != null) {
+            TicketStatus status = ticketStatusRepository.findById(ticketStatusId)
+                    .orElseThrow(() -> new RuntimeException("Статус не найден"));
+            ticket.setTicketStatus(status);
+        }
+
+        repo.save(ticket);
+        return "Билет " + id + " обновлен";
+    }
+
+    @Override
+    public void deleteTicketById(Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Билет не найден");
+        }
+        repo.deleteById(id);
+    }
+
     //пагинация
+
+
 
     @Override
     public Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,
@@ -199,6 +237,6 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .collect(Collectors.toList());
     }
 
-
+    
 
 }
