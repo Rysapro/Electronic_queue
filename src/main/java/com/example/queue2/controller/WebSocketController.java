@@ -26,9 +26,8 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
     }
     @MessageMapping("/updateTicket")
     @SendTo("/topic/ticket")
-    public String handleUpdateTicketEvent(TicketResponseDto responseDto) {
-        String response = baseService.updateTicket(responseDto.id(), responseDto.place().id(), responseDto.priority().id(), responseDto.ticketStatus().id());
-        return "{\"response\" : \"" + response +  "\"}";
+    public Ticket handleUpdateTicketEvent(Ticket ticket) {
+        return baseService.updateTicket(ticket);
     }
     @MessageMapping("/deleteTicket")
     @SendTo("/topic/ticket")
