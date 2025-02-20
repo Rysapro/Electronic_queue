@@ -138,28 +138,52 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
 
         return String.format("%s-%s-%04d", code, provisionName, ticketNumber);
     }
+
     @Override
-    public Ticket updateTicket(Ticket updatedTicket) {
-        Ticket ticket = repo.findById(updatedTicket.getId())
+    public TicketResponseDto updateTicket(Long ticketId, TicketRequestDto dto) {
+        Ticket ticket = repo.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
-        System.out.println("ticket: " + ticket);
 
-
-        if (updatedTicket.getPlace() != null) {
-            ticket.setPlace(updatedTicket.getPlace());
+        if (dto.placeId() != null) {
+            Place place = placeRepository.findById(dto.placeId())
+                    .orElseThrow(() -> new EntityNotFoundException("Place not found"));
+            ticket.setPlace(place);
         }
 
-        if (updatedTicket.getProvision() != null) {
-            ticket.setProvision(updatedTicket.getProvision());
+        if (dto.provisionId() != null) {
+            Provision provision = provisionRepository.findById(dto.provisionId())
+                    .orElseThrow(() -> new EntityNotFoundException("Provision not found"));
+            ticket.setProvision(provision);
         }
 
-        if (updatedTicket.getTicketStatus() != null) {
-            ticket.setTicketStatus(updatedTicket.getTicketStatus());
-        }
 
-        repo.save(ticket);
-        return ticket;
+
+        return toDTO(repo.save(ticket));
     }
+
+
+//    @Override
+//    public Ticket updateTicket(Ticket updatedTicket) {
+//        Ticket ticket = repo.findById(updatedTicket.getId())
+//                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+//        System.out.println("ticket: " + ticket);
+//
+//
+//        if (updatedTicket.getPlace() != null) {
+//            ticket.setPlace(updatedTicket.getPlace());
+//        }
+//
+//        if (updatedTicket.getProvision() != null) {
+//            ticket.setProvision(updatedTicket.getProvision());
+//        }
+//
+//        if (updatedTicket.getTicketStatus() != null) {
+//            ticket.setTicketStatus(updatedTicket.getTicketStatus());
+//        }
+//
+//        repo.save(ticket);
+//        return ticket;
+//    }
 //    @Override
 //    public String updateTicket(Long id) {
 //        Ticket ticket = repo.findById(id)

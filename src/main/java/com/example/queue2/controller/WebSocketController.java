@@ -26,8 +26,8 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
     }
     @MessageMapping("/updateTicket")
     @SendTo("/topic/ticket")
-    public Ticket handleUpdateTicketEvent(Ticket ticket) {
-        return baseService.updateTicket(ticket);
+    public TicketResponseDto handleUpdateTicketEvent(Long ticketId, TicketRequestDto requestDto) {
+        return baseService.updateTicket(ticketId, requestDto);
     }
     @MessageMapping("/deleteTicket")
     @SendTo("/topic/ticket")
