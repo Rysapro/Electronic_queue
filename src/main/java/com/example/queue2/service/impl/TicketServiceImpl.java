@@ -138,33 +138,54 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
 
         return String.format("%s-%s-%04d", code, provisionName, ticketNumber);
     }
-
     @Override
-    public String updateTicket(Long id, Long placeId, Long provisionId, Long ticketStatusId) {
-        Ticket ticket = repo.findById(id)
+    public Ticket updateTicket(Ticket updatedTicket) {
+        Ticket ticket = repo.findById(updatedTicket.getId())
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+        System.out.println("ticket: " + ticket);
 
-        if (placeId != null) {
-            Place place = placeRepository.findById(placeId)
-                    .orElseThrow(() -> new RuntimeException("МТО не найдено"));
-            ticket.setPlace(place);
+
+        if (updatedTicket.getPlace() != null) {
+            ticket.setPlace(updatedTicket.getPlace());
         }
 
-        if (provisionId != null) {
-            Provision provision = provisionRepository.findById(provisionId)
-                    .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
-            ticket.setProvision(provision);
+        if (updatedTicket.getProvision() != null) {
+            ticket.setProvision(updatedTicket.getProvision());
         }
 
-        if (ticketStatusId != null) {
-            TicketStatus status = ticketStatusRepository.findById(ticketStatusId)
-                    .orElseThrow(() -> new RuntimeException("Статус не найден"));
-            ticket.setTicketStatus(status);
+        if (updatedTicket.getTicketStatus() != null) {
+            ticket.setTicketStatus(updatedTicket.getTicketStatus());
         }
 
         repo.save(ticket);
-        return "Билет " + id + " обновлен";
+        return ticket;
     }
+//    @Override
+//    public String updateTicket(Long id) {
+//        Ticket ticket = repo.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+//
+//        if (placeId != null) {
+//            Place place = placeRepository.findById(placeId)
+//                    .orElseThrow(() -> new RuntimeException("МТО не найдено"));
+//            ticket.setPlace(place);
+//        }
+//
+//        if (provisionId != null) {
+//            Provision provision = provisionRepository.findById(provisionId)
+//                    .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
+//            ticket.setProvision(provision);
+//        }
+//
+//        if (ticketStatusId != null) {
+//            TicketStatus status = ticketStatusRepository.findById(ticketStatusId)
+//                    .orElseThrow(() -> new RuntimeException("Статус не найден"));
+//            ticket.setTicketStatus(status);
+//        }
+//
+//        repo.save(ticket);
+//        return "Билет " + id + " обновлен";
+//    }
 
     @Override
     public void deleteTicketById(Long id) {
