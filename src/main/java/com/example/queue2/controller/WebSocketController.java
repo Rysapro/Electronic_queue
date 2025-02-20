@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController extends BaseController<Ticket, TicketRequestDto, TicketResponseDto, TicketService> {
 
 
-
     public WebSocketController(TicketService service) {
         super(service);
     }
@@ -22,14 +21,40 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
     @SendTo("/topic/ticket")
     public String handleTicketEvent(TicketRequestDto requestDto) {
         String ticketCode = baseService.generateTicket(requestDto.placeId(), requestDto.provisionId());
-        return "{\"response\" : \"" + ticketCode+  "\"}";
+        return "{\"response\" : \"" + ticketCode + "\"}";
     }
+//    @MessageMapping("/getTicket")
+//    @SendTo("/topic/ticketData")
+//    public String handleGetTicket(TicketResponseDto responseDto) {
+//        Ticket ticket = baseService.findTicketById(responseDto.id())
+//                .orElseThrow(() -> new RuntimeException("Билет не найден"));
+//
+//        return new TicketResponseDto(ticket.getId(), ticket.getPlace().getId(), ticket.getProvision().getId(), ticket.getTicketStatus().getId());
+//    }
+//
+
+
+//    @MessageMapping("/updateTicket")
+//    @SendTo("/topic/updateTicket")
+//    public String handleUpdateTicketEvent(TicketResponseDto responseDto) {
+//        String response = baseService.updateTicket(responseDto.id(), responseDto.place().id(), responseDto.priority().id(), responseDto.ticketStatus().id());
+//        return "{\"response\" : \"" + response +  "\"}";
+//    }
+
+    //    @MessageMapping("/updateTicket")
+//    @SendTo("/topic/updateTicket")
+//    public String handleUpdateTicketEvent(Ticket ticket, TicketRequestDto requestDto) {
+//        baseService.findTicketById(ticket.getId());
+//        return "{\"response\" : \"Ticket found: " + ticket.getId() + "\"}";
+//    }
     @MessageMapping("/updateTicket")
-    @SendTo("/topic/ticket")
-    public String handleUpdateTicketEvent(TicketResponseDto responseDto) {
-        String response = baseService.updateTicket(responseDto.id(), responseDto.place().id(), responseDto.priority().id(), responseDto.ticketStatus().id());
-        return "{\"response\" : \"" + response +  "\"}";
+    @SendTo("/topic/updateTicket")
+    public Ticket handleUpdateTicketEvent(Ticket ticket) {
+        System.out.println("Получено обновление тикета: " + ticket);
+
+        return baseService.updateTicket(ticket);
     }
+
     @MessageMapping("/deleteTicket")
     @SendTo("/topic/ticket")
     public String handleDeleteTicketEvent(TicketResponseDto responseDto) {
