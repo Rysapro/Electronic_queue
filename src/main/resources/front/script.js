@@ -7,9 +7,32 @@ stompClient.connect({}, function (frame) {
         let response = JSON.parse(message.body)["response"];
         document.getElementById("response").innerText = "Талон создан: " + response;
     });
+    stompClient.subscribe("/topic/updateTicket", function (message) {
+        console.log("Received Ticket Update:", message.body);
+
+        let ticket;
+        try {
+            ticket = JSON.parse(message.body); // Directly parse, no ["ticket"]
+        } catch (error) {
+            console.error("Error parsing ticket update:", error);
+            return;
+        }
+
+        if (ticket && ticket.id) {
+            document.getElementById("placeId").value = ticket.placeId;
+            document.getElementById("provisionId").value = ticket.provisionId;
+            document.getElementById("saveBtn").style.display = "inline-block";
+        } else {
+            alert("Талон не найден");
+        }
+    });
 });
 
 function sendTicket() {
+    if (!stompClient || !stompClient.connected) {
+        alert("WebSocket connection is not ready. Please wait...");
+        return;
+    }
     let placeId = document.getElementById("placeId").value;
     let provisionId = document.getElementById("provisionId").value;
 
@@ -38,20 +61,7 @@ function updateTicket() {
 }
 
 // Обработчик получения данных билета
-stompClient.subscribe("/topic/updateTicket", function (message) {
-    let ticket = JSON.parse(message.body)["ticket"];
 
-    if (ticket) {
-        // Заполняем поля формы текущими значениями билета
-        document.getElementById("placeId").value = ticket.placeId;
-        document.getElementById("provisionId").value = ticket.provisionId;
-
-        // Показываем кнопку "Сохранить"
-        document.getElementById("saveBtn").style.display = "inline-block";
-    } else {
-        alert("Талон не найден");
-    }
-});
 
 // Функция для сохранения изменений
 function saveUpdatedTicket() {
