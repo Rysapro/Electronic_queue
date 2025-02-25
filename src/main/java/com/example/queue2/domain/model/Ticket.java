@@ -56,7 +56,7 @@ public class Ticket extends BaseEntity {
     private TicketStatus ticketStatus;
 
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     private LocalDate createdDate;
 
     @PrePersist

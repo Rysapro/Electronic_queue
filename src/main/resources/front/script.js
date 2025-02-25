@@ -254,37 +254,85 @@ function updateTicket() {
     }
 
     stompClient.send("/app/updateTicket", {}, JSON.stringify({ id: parseInt(ticketId) }));
+
+    document.getElementById("ticketDetails").style.display = "block";
+
+    // Сохраняем ID билета для использования в функции saveUpdatedTicket
+    // Можно сохранить как глобальную переменную или как data-атрибут
+    window.currentTicketId = parseInt(ticketId);
+
+    // Опционально: можно прокрутить страницу к форме
+    document.getElementById("ticketDetails").scrollIntoView({ behavior: "smooth" });
 }
-
 function saveUpdatedTicket() {
-    let ticketId = prompt("Введите ID билета для сохранения изменений");
+    const placeId = document.getElementById("updatePlaceId").value;
+    const provisionId = document.getElementById("updateProvisionId").value;
+    const ticketStatusId = document.getElementById("ticketStatusId").value;
 
-    console.log("Сохранение изменений билета с ID: ", ticketId);
-
-    if (!ticketId) {
-        alert("Введите ID билета!");
-        return;
-    }
-
-    let placeId = document.getElementById("placeId").value;
-    let provisionId = document.getElementById("provisionId").value;
-
-    if (!placeId || !provisionId) {
-        alert("Введите Place ID и Provision ID!");
-        return;
-    }
-
-    let updatedTicketResponse = {
-        id: parseInt(ticketId),
-        placeId: parseInt(placeId),
-        provisionId: parseInt(provisionId)
+    const updatedTicket = {
+        id: window.currentTicketId,
+        place: placeId ? { id: parseInt(placeId) } : null,
+        provision: provisionId ? { id: parseInt(provisionId) } : null,
+        ticketStatus: ticketStatusId ? { id: parseInt(ticketStatusId) } : null
     };
 
-    console.log("Отправка обновленного билета: ", updatedTicketResponse);
+    console.log("Отправка обновленных данных:", updatedTicket);
 
-    stompClient.send("/app/updateTicket", {}, JSON.stringify(updatedTicketResponse));
-    document.getElementById("saveBtn").style.display = "none";
+    stompClient.send("/app/updateTicket", {}, JSON.stringify(updatedTicket));
+
+
+    // if (!placeId || !provisionId || !ticketStatusId) {
+    //     alert("Пожалуйста, заполните все поля!");
+    //     return;
+    // }
+    //
+    // // Создаем объект с данными для обновления
+    // const updatedTicket = {
+    //     id: window.currentTicketId,
+    //     placeId: parseInt(placeId),
+    //     provisionId: parseInt(provisionId),
+    //     ticketStatusId: parseInt(ticketStatusId)
+    // };
+    //
+    // // Отправляем данные на сервер
+    // stompClient.send("/app/saveUpdatedTicket", {}, JSON.stringify(updatedTicket));
+
+    // Скрываем форму после отправки
+    document.getElementById("ticketDetails").style.display = "none";
+
+    // Опционально: очищаем форму
+    document.getElementById("updateForm").reset();
 }
+
+// function saveUpdatedTicket() {
+//     let ticketId = prompt("Введите ID билета для сохранения изменений");
+//
+//     console.log("Сохранение изменений билета с ID: ", ticketId);
+//
+//     if (!ticketId) {
+//         alert("Введите ID билета!");
+//         return;
+//     }
+//
+//     let placeId = document.getElementById("placeId").value;
+//     let provisionId = document.getElementById("provisionId").value;
+//
+//     if (!placeId || !provisionId) {
+//         alert("Введите Place ID и Provision ID!");
+//         return;
+//     }
+//
+//     let updatedTicketResponse = {
+//         id: parseInt(ticketId),
+//         placeId: parseInt(placeId),
+//         provisionId: parseInt(provisionId)
+//     };
+//
+//     console.log("Отправка обновленного билета: ", updatedTicketResponse);
+//
+//     stompClient.send("/app/updateTicket", {}, JSON.stringify(updatedTicketResponse));
+//     document.getElementById("saveBtn").style.display = "none";
+// }
 
 function deleteTicket() {
     let ticketId = prompt("Введите ID билета для удаления");

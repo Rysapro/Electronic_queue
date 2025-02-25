@@ -180,12 +180,13 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     public Ticket updateTicket(Ticket updatedTicket) {
         Ticket ticket = repo.findById(updatedTicket.getId())
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
-        System.out.println("ticket: " + ticket);
+        System.out.println("ticket барбы ваще?: " + ticket);
 
 
         if (updatedTicket.getPlace() != null) {
             ticket.setPlace(updatedTicket.getPlace());
         }
+        System.out.println("какой айди передается в plaice: "+ updatedTicket.getPlace());
 
         if (updatedTicket.getProvision() != null) {
             ticket.setProvision(updatedTicket.getProvision());
@@ -194,8 +195,10 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         if (updatedTicket.getTicketStatus() != null) {
             ticket.setTicketStatus(updatedTicket.getTicketStatus());
         }
+        System.out.println("ticket жеттиби ваще?: " + ticket);
 
         repo.save(ticket);
+        System.out.println("ticket сохранится болдубу ваще? " + ticket);
         return ticket;
     }
 
