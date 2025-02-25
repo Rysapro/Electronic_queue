@@ -9,8 +9,6 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "ticket")
@@ -56,7 +54,7 @@ public class Ticket extends BaseEntity {
     private TicketStatus ticketStatus;
 
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     private LocalDate createdDate;
 
     @PrePersist

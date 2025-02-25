@@ -10,7 +10,6 @@ import com.example.queue2.repository.TicketStatusRepository;
 import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -140,76 +139,25 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     }
 
     @Override
-    public TicketResponseDto updateTicket(Long ticketId, TicketRequestDto dto) {
-        Ticket ticket = repo.findById(ticketId)
+    public Ticket updateTicket(Ticket updatedTicket) {
+        Ticket ticket = repo.findById(updatedTicket.getId())
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
 
-        if (dto.placeId() != null) {
-            Place place = placeRepository.findById(dto.placeId())
-                    .orElseThrow(() -> new EntityNotFoundException("Place not found"));
-            ticket.setPlace(place);
+        if (updatedTicket.getPlace() != null) {
+            ticket.setPlace(updatedTicket.getPlace());
         }
 
-        if (dto.provisionId() != null) {
-            Provision provision = provisionRepository.findById(dto.provisionId())
-                    .orElseThrow(() -> new EntityNotFoundException("Provision not found"));
-            ticket.setProvision(provision);
+        if (updatedTicket.getProvision() != null) {
+            ticket.setProvision(updatedTicket.getProvision());
         }
 
+        if (updatedTicket.getTicketStatus() != null) {
+            ticket.setTicketStatus(updatedTicket.getTicketStatus());
+        }
 
-
-        return toDTO(repo.save(ticket));
+        repo.save(ticket);
+        return ticket;
     }
-
-
-//    @Override
-//    public Ticket updateTicket(Ticket updatedTicket) {
-//        Ticket ticket = repo.findById(updatedTicket.getId())
-//                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
-//        System.out.println("ticket: " + ticket);
-//
-//
-//        if (updatedTicket.getPlace() != null) {
-//            ticket.setPlace(updatedTicket.getPlace());
-//        }
-//
-//        if (updatedTicket.getProvision() != null) {
-//            ticket.setProvision(updatedTicket.getProvision());
-//        }
-//
-//        if (updatedTicket.getTicketStatus() != null) {
-//            ticket.setTicketStatus(updatedTicket.getTicketStatus());
-//        }
-//
-//        repo.save(ticket);
-//        return ticket;
-//    }
-//    @Override
-//    public String updateTicket(Long id) {
-//        Ticket ticket = repo.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
-//
-//        if (placeId != null) {
-//            Place place = placeRepository.findById(placeId)
-//                    .orElseThrow(() -> new RuntimeException("МТО не найдено"));
-//            ticket.setPlace(place);
-//        }
-//
-//        if (provisionId != null) {
-//            Provision provision = provisionRepository.findById(provisionId)
-//                    .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
-//            ticket.setProvision(provision);
-//        }
-//
-//        if (ticketStatusId != null) {
-//            TicketStatus status = ticketStatusRepository.findById(ticketStatusId)
-//                    .orElseThrow(() -> new RuntimeException("Статус не найден"));
-//            ticket.setTicketStatus(status);
-//        }
-//
-//        repo.save(ticket);
-//        return "Билет " + id + " обновлен";
-//    }
 
     @Override
     public void deleteTicketById(Long id) {
@@ -219,8 +167,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         repo.deleteById(id);
     }
 
-    //пагинация
-
+    //Пагинация
 
     @Override
     public Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,

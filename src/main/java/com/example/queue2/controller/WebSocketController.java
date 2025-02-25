@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController extends BaseController<Ticket, TicketRequestDto, TicketResponseDto, TicketService> {
 
 
-
     public WebSocketController(TicketService service) {
         super(service);
     }
@@ -22,13 +21,16 @@ public class WebSocketController extends BaseController<Ticket, TicketRequestDto
     @SendTo("/topic/ticket")
     public String handleTicketEvent(TicketRequestDto requestDto) {
         String ticketCode = baseService.generateTicket(requestDto.placeId(), requestDto.provisionId());
-        return "{\"response\" : \"" + ticketCode+  "\"}";
+        return "{\"response\" : \"" + ticketCode + "\"}";
     }
+
     @MessageMapping("/updateTicket")
-    @SendTo("/topic/ticket")
-    public TicketResponseDto handleUpdateTicketEvent(Long ticketId, TicketRequestDto requestDto) {
-        return baseService.updateTicket(ticketId, requestDto);
+    @SendTo("/topic/updateTicket")
+    public Ticket handleUpdateTicketEvent(Ticket ticket) {
+        System.out.println("Получено обновление тикета: " + ticket);
+        return baseService.updateTicket(ticket);
     }
+
     @MessageMapping("/deleteTicket")
     @SendTo("/topic/ticket")
     public String handleDeleteTicketEvent(TicketResponseDto responseDto) {

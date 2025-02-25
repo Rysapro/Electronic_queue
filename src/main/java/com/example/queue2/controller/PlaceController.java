@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/place")
 @Tag(name = "Место таможенного оформления")
 public class PlaceController extends BaseController<Place, PlaceRequestDto, PlaceResponseDto, PlaceService>{
-
     private final PlaceService placeService;
 
     public PlaceController(PlaceService placeService, PlaceService placeService1) {

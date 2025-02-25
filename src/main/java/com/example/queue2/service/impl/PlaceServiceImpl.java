@@ -5,14 +5,11 @@ import com.example.queue2.domain.dto.PlaceRequestDto;
 import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.model.Place;
 import com.example.queue2.repository.PlaceRepository;
-import com.example.queue2.repository.TicketRepository;
 import com.example.queue2.service.PlaceService;
 import com.example.queue2.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class PlaceServiceImpl extends BaseServiceImpl<Place, PlaceRequestDto, PlaceResponseDto, PlaceRepository> implements PlaceService {

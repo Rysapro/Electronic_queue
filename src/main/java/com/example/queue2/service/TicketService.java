@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface TicketService extends BaseService<Ticket, TicketRequestDto, TicketResponseDto> {
     String generateTicket(Long placeId, Long provisionId);
-    TicketResponseDto updateTicket(Long ticketId, TicketRequestDto dto);
+
+    Ticket updateTicket(Ticket updatedTicket);
+
     void deleteTicketById(Long id);
 
     Page<TicketResponseDto> getTickets(Long placeId, Long informationId, Long provisionId,
