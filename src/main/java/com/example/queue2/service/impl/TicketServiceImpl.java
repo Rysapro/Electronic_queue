@@ -107,8 +107,6 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         );
     }
 
-    //Генерация билетов
-
     public String generateTicket(Long placeId, Long provisionId) {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new RuntimeException("МТО не найдено"));
