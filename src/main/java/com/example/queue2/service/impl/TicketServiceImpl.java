@@ -10,11 +10,16 @@ import com.example.queue2.repository.TicketStatusRepository;
 import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
+import jakarta.persistence.Column;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -221,6 +226,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
 
 
     //возврат всех талонов по placeId со статусом горит
+
     @Override
     public List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId) {
         return ticketRepository.findByPlaceId(placeId, ticketStatusId)
@@ -229,5 +235,37 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .collect(Collectors.toList());
     }
 
+    //Прием талона
+
+    @Override
+    public TicketResponseDto acceptanceTicket(Long id) {
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus newStatus = ticketStatusRepository.findById(2l)
+                .orElseThrow(() -> new RuntimeException("Статус Активный с id 2 не найден!!!"));
+        ticket.setTicketStatus(newStatus);
+
+        Ticket updatedTicket = repo.save(ticket);
+        return mapToTicketResponseDto(updatedTicket);
+    }
+
+    //Завершение обработки
+
+    @Override
+    public TicketResponseDto completionTicket(Long id){
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus newStatus = ticketStatusRepository.findById(3l)
+                .orElseThrow(() -> new RuntimeException("Статус Завершенный с id 3 не найден!!!"));
+        ticket.setTicketStatus(newStatus);
+
+        ticket.setTimeOfFinished(LocalDateTime.now());
+        ticket.setProcessingTime(Duration.between(ticket.getUpdateDate(), ticket.getTimeOfFinished()));
+
+        Ticket updatedTicket = repo.save(ticket);
+        return mapToTicketResponseDto(updatedTicket);
+    }
 
 }

@@ -22,4 +22,8 @@ public interface TicketService extends BaseService<Ticket, TicketRequestDto, Tic
 
     List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId);
 
+    TicketResponseDto acceptanceTicket(Long id);
+
+   TicketResponseDto completionTicket(Long id);
+
 }

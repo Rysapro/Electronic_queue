@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,5 +67,16 @@ public class TicketController extends BaseController<Ticket, TicketRequestDto, T
     ){
         return baseService.getAllPlaceId(placeId, ticketStatusId);
     }
+
+    @PutMapping("/update_status")
+    public TicketResponseDto updateTicketStatus(Long id){
+        return baseService.acceptanceTicket(id);
+    }
+
+    @PutMapping("/complete_ticket")
+    public TicketResponseDto completeTicket(Long id){
+        return baseService.completionTicket(id);
+    }
+
 
 }

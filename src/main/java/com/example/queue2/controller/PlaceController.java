@@ -5,6 +5,7 @@ import com.example.queue2.controller.base.BaseController;
 import com.example.queue2.domain.dto.PlaceRequestDto;
 import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.model.Place;
+import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.service.PlaceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;

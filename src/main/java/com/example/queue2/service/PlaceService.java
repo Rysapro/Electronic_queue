@@ -4,6 +4,7 @@ import com.example.queue2.domain.dto.PlaceResponseDto;
 import com.example.queue2.domain.dto.PlaceRequestDto;
 import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.model.Place;
+import com.example.queue2.domain.model.Ticket;
 import com.example.queue2.service.base.BaseService;
 
 import java.util.List;
