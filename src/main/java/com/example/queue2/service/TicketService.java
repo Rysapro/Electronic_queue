@@ -1,5 +1,6 @@
 package com.example.queue2.service;
 
+import com.example.queue2.domain.dto.OperatorTicketCountDto;
 import com.example.queue2.domain.dto.TicketRequestDto;
 import com.example.queue2.domain.dto.TicketResponseDto;
 import com.example.queue2.domain.model.Ticket;
@@ -7,6 +8,7 @@ import com.example.queue2.service.base.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TicketService extends BaseService<Ticket, TicketRequestDto, TicketResponseDto> {
@@ -21,5 +23,23 @@ public interface TicketService extends BaseService<Ticket, TicketRequestDto, Tic
     Page<TicketResponseDto> getPlaceId(Long placeId, Long ticketStatusId, Pageable pageable);
 
     List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId);
+
+    TicketResponseDto acceptanceTicket(Long id);
+
+    TicketResponseDto completionTicket(Long id);
+
+    TicketResponseDto absenceTicket(Long id);
+
+    TicketResponseDto getAbsenceTicket(Long id);
+
+    List<TicketResponseDto> getAllTicketStatusAbsence(Long placeId);
+
+    Page<TicketResponseDto> getTicketStatusFinished(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+    Page<TicketResponseDto> getTicketStatusFinishedWithPlace(Long placeId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+/*
+    List<OperatorTicketCountDto> getCountTicketByUser(LocalDateTime startDate, LocalDateTime endDate);
+*/
 
 }

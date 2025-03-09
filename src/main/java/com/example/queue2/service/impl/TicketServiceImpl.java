@@ -1,5 +1,7 @@
 package com.example.queue2.service.impl;
 
+import com.example.queue2.domain.dto.OperatorTicketCountDto;
+import com.example.queue2.domain.dto.PlaceTicketCountDto;
 import com.example.queue2.domain.dto.TicketRequestDto;
 import com.example.queue2.domain.dto.TicketResponseDto;
 import com.example.queue2.domain.model.*;
@@ -10,12 +12,19 @@ import com.example.queue2.repository.TicketStatusRepository;
 import com.example.queue2.repository.base.BaseRepository;
 import com.example.queue2.service.TicketService;
 import com.example.queue2.service.base.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +38,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     private final TicketRepository ticketRepository;
 
 
-    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository, Counter counter, @Qualifier("baseRepository") BaseRepository baseRepository, TicketRepository ticketRepository) {
+    public TicketServiceImpl(TicketRepository repo, PlaceRepository placeRepository, ProvisionRepository provisionRepository, TicketStatusRepository ticketStatusRepository, Counter counter, @Qualifier("baseRepository") BaseRepository baseRepository, TicketRepository ticketRepository, ScheduledTaskService scheduledTaskService) {
         super(repo);
         this.placeRepository = placeRepository;
         this.provisionRepository = provisionRepository;
@@ -37,6 +46,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         this.counter = counter;
         this.baseRepository = baseRepository;
         this.ticketRepository = ticketRepository;
+        this.scheduledTaskService = scheduledTaskService;
     }
 
 
@@ -108,6 +118,9 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     }
 
     public String generateTicket(Long placeId, Long provisionId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new RuntimeException("МТО не найдено"));
         Provision provision = provisionRepository.findById(provisionId)
@@ -123,6 +136,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         ticket.setPlace(place);
         ticket.setProvision(provision);
         ticket.setTicketStatus(status);
+        ticket.setOperatorId(currentUser);
 
         repo.save(ticket);
 
@@ -228,6 +242,127 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .map(this::mapToTicketResponseDto)
                 .collect(Collectors.toList());
     }
+
+    //Прием талона
+
+    @Override
+    public TicketResponseDto acceptanceTicket(Long id) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User currentUser = (User) auth.getPrincipal();
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus newStatus = ticketStatusRepository.findById(2l)
+                .orElseThrow(() -> new RuntimeException("Статус Активный с id 2 не найден!!!"));
+        ticket.setTicketStatus(newStatus);
+//        ticket.setOperatorId(currentUser);
+        Ticket updatedTicket = repo.save(ticket);
+        return mapToTicketResponseDto(updatedTicket);
+    }
+
+    //Завершение обработки
+
+    @Override
+    public TicketResponseDto completionTicket(Long id){
+
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus newStatus = ticketStatusRepository.findById(3l)
+                .orElseThrow(() -> new RuntimeException("Статус Завершенный с id 3 не найден!!!"));
+        ticket.setTicketStatus(newStatus);
+
+        ticket.setTimeOfFinished(LocalDateTime.now());
+        ticket.setProcessingTime(Duration.between(ticket.getUpdateDate(), ticket.getTimeOfFinished()));
+
+        Ticket updatedTicket = repo.save(ticket);
+        return mapToTicketResponseDto(updatedTicket);
+    }
+
+    //Неявка
+    private final ScheduledTaskService scheduledTaskService;
+
+    @Autowired
+    private TaskScheduler taskScheduler;
+
+    @Override
+    public TicketResponseDto absenceTicket(Long id){
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus waitingStatus = ticketStatusRepository.findById(4l)
+                .orElseThrow(() -> new RuntimeException("Статус Неактивный с id 4 не найден!!!"));
+        ticket.setTicketStatus(waitingStatus);
+
+        repo.save(ticket);
+
+        scheduledTaskService.scheduleTask(() -> {
+            checkAndUpdateStatus(id);
+        }, 5, TimeUnit.MINUTES);
+
+        return mapToTicketResponseDto(ticket);
+    }
+    private void checkAndUpdateStatus(Long ticketId) {
+        Ticket ticket = repo.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus noShowStatus = ticketStatusRepository.findById(5L)
+                .orElseThrow(() -> new RuntimeException("Статус Неявка с id 5 не найден!!!"));
+
+        ticket.setTicketStatus(noShowStatus);
+        repo.save(ticket);
+    }
+
+    // Принятие неявки
+
+    @Override
+    public TicketResponseDto getAbsenceTicket(Long id){
+
+        Ticket ticket = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
+
+        TicketStatus newStatus = ticketStatusRepository.findById(2l)
+                .orElseThrow(() -> new RuntimeException("Статус Активный с id 2 не найден!!!"));
+        ticket.setTicketStatus(newStatus);
+        repo.save(ticket);
+        return mapToTicketResponseDto(ticket);
+    }
+
+    // Получения всех неявок за последние 5 минут
+
+    @Override
+    public List<TicketResponseDto> getAllTicketStatusAbsence(Long placeId) {
+        LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(5);
+
+        return ticketRepository.getAllTicketStatusAbsence(placeId, fiveMinutesAgo)
+                .stream()
+                .map(this::mapToTicketResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    //возвращает с пагинацией завершенные талоны
+
+    @Override
+    public Page<TicketResponseDto> getTicketStatusFinished(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+
+        return ticketRepository.findAllFinishedTickets(startDate, endDate,  pageable)
+                .map(this::mapToTicketResponseDto);
+    }
+
+    //возвращает с пагинацией по месту завершенные талоны
+
+    @Override
+    public Page<TicketResponseDto> getTicketStatusFinishedWithPlace(Long placeId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+
+        return ticketRepository.findAllFinishedTicketsWithPlace(placeId, startDate, endDate,  pageable)
+                .map(this::mapToTicketResponseDto);
+    }
+
+  /*  @Override
+    public List<OperatorTicketCountDto> getCountTicketByUser(LocalDateTime startDate, LocalDateTime endDate) {
+        return ticketRepository.countProcessedTicketsByOperator(startDate, endDate);
+    }
+*/
 
 
 }
