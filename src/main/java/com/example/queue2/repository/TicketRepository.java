@@ -56,4 +56,18 @@ public interface TicketRepository extends BaseRepository<Ticket> {
             @Param("endDate") LocalDateTime endDate
     );
 
+    @Query("SELECT new com.example.queue2.domain.dto.OperatorTicketCountByPlaceDto(t.operatorId.name, COUNT(t)) " +
+            "FROM Ticket t " +
+            "WHERE t.ticketStatus.id = 3 " +
+            "AND (:placeId IS NULL OR t.place.id= :placeId)" +
+            "AND t.updateDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY t.operatorId.name")
+    List<OperatorTicketCountByPlaceDto> countProcessedTicketsByPlace(
+            @Param("placeId") Long place,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
+
+
+
 }

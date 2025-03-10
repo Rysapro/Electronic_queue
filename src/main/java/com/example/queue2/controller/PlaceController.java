@@ -24,8 +24,9 @@ public class PlaceController extends BaseController<Place, PlaceRequestDto, Plac
         this.placeService = placeService1;
     }
 
-    @GetMapping("/ticket-count")
-    public List<PlaceTicketCountDto> getPending(){
-        return placeService.getPending();
+    @GetMapping("/pending-count")
+    public List<PlaceTicketCountDto> getPending(@RequestParam(required = false) String name){
+        return placeService.getPending(name);
     }
+
 }

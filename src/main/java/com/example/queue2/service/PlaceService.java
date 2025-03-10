@@ -9,5 +9,5 @@ import com.example.queue2.service.base.BaseService;
 import java.util.List;
 
 public interface PlaceService extends BaseService<Place, PlaceRequestDto, PlaceResponseDto> {
-    List<PlaceTicketCountDto> getPending();
+    List<PlaceTicketCountDto> getPending(String name);
 }

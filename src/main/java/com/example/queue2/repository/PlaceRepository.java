@@ -12,6 +12,7 @@ public interface PlaceRepository extends BaseRepository<Place> {
             "FROM Ticket t " +
             "JOIN t.place p " +
             "WHERE t.ticketStatus.id = 1 " +
+            "AND t.createdDate = CURRENT_DATE" +
             "GROUP BY p.placeName")
-    List<PlaceTicketCountDto> countActiveTicketsPerPlace();
+    List<PlaceTicketCountDto> countActiveTicketsPerPlace(String name);
 }

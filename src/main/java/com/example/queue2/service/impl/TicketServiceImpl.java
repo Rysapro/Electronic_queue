@@ -234,7 +234,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
     }
 
 
-    //возврат всех талонов по placeId со статусом горит
+    //возврат всех талонов по placeId
     @Override
     public List<TicketResponseDto> getAllPlaceId(Long placeId, Long ticketStatusId) {
         return ticketRepository.findByPlaceId(placeId, ticketStatusId)
@@ -243,19 +243,23 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .collect(Collectors.toList());
     }
 
-    //Прием талона
+    //Прием талона (15)
 
     @Override
     public TicketResponseDto acceptanceTicket(Long id) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = (User) auth.getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
         Ticket ticket = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
 
+        if(ticket.getTicketStatus().getId() == 3L){
+            throw new RuntimeException("талон был уже принят или обработан");
+        }
         TicketStatus newStatus = ticketStatusRepository.findById(2l)
                 .orElseThrow(() -> new RuntimeException("Статус Активный с id 2 не найден!!!"));
         ticket.setTicketStatus(newStatus);
-//        ticket.setOperatorId(currentUser);
+        ticket.setOperatorId(currentUser);
         Ticket updatedTicket = repo.save(ticket);
         return mapToTicketResponseDto(updatedTicket);
     }
@@ -268,6 +272,9 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         Ticket ticket = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
 
+        if(ticket.getTicketStatus().getId() == 3L){
+            throw new RuntimeException("талон был уже принят или обработан");
+        }
         TicketStatus newStatus = ticketStatusRepository.findById(3l)
                 .orElseThrow(() -> new RuntimeException("Статус Завершенный с id 3 не найден!!!"));
         ticket.setTicketStatus(newStatus);
@@ -279,7 +286,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         return mapToTicketResponseDto(updatedTicket);
     }
 
-    //Неявка
+    //Неявка (17)
     private final ScheduledTaskService scheduledTaskService;
 
     @Autowired
@@ -290,6 +297,9 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
         Ticket ticket = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Билет не найден!!!"));
 
+        if(ticket.getTicketStatus().getId() == 3L){
+            throw new RuntimeException("талон был уже принят или обработан");
+        }
         TicketStatus waitingStatus = ticketStatusRepository.findById(4l)
                 .orElseThrow(() -> new RuntimeException("Статус Неактивный с id 4 не найден!!!"));
         ticket.setTicketStatus(waitingStatus);
@@ -340,7 +350,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .collect(Collectors.toList());
     }
 
-    //возвращает с пагинацией завершенные талоны
+    //возвращает с пагинацией завершенные талоны (21)
 
     @Override
     public Page<TicketResponseDto> getTicketStatusFinished(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
@@ -358,11 +368,18 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .map(this::mapToTicketResponseDto);
     }
 
-  /*  @Override
+    @Override
     public List<OperatorTicketCountDto> getCountTicketByUser(LocalDateTime startDate, LocalDateTime endDate) {
         return ticketRepository.countProcessedTicketsByOperator(startDate, endDate);
     }
-*/
+
+    @Override
+    public List<OperatorTicketCountByPlaceDto> getCountTicketByPlace(Long placeId, LocalDateTime startDate, LocalDateTime endDate){
+        return ticketRepository.countProcessedTicketsByPlace(plceId, startDate,endDate);
+    }
+
+
+
 
 
 }

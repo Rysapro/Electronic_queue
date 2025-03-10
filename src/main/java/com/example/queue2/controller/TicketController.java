@@ -126,12 +126,21 @@ public class TicketController extends BaseController<Ticket, TicketRequestDto, T
         return ResponseEntity.ok(tickets);
     }
 
-  /*  @GetMapping("/operator_ticket_count")
+    @GetMapping("/operator_ticket_count")
     public ResponseEntity<List<OperatorTicketCountDto>> getCountTicketByUserId(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
         return ResponseEntity.ok(baseService.getCountTicketByUser(startDate, endDate));
 
-    }*/
+    }
+
+    @GetMapping("/operator_ticket_count_by_place")
+    public ResponseEntity<List<OperatorTicketCountDto>> getCountTicketByUserId(
+            @RequestParam(required = false) Long placeId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        return ResponseEntity.ok(baseService.getCountTicketByUser(startDate, endDate));
+
+    }
 
 }

@@ -32,7 +32,7 @@ public class PlaceServiceImpl extends BaseServiceImpl<Place, PlaceRequestDto, Pl
         return new PlaceResponseDto(entity.getId(), entity.getPlaceName(), entity.getAddress(), entity.getCode());
     }
 
-    public List<PlaceTicketCountDto> getPending(){
+    public List<PlaceTicketCountDto> getPending(String name){
         return placeRepository.countActiveTicketsPerPlace();
     }
 

@@ -38,8 +38,8 @@ public interface TicketService extends BaseService<Ticket, TicketRequestDto, Tic
 
     Page<TicketResponseDto> getTicketStatusFinishedWithPlace(Long placeId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
-/*
     List<OperatorTicketCountDto> getCountTicketByUser(LocalDateTime startDate, LocalDateTime endDate);
-*/
+
+    List<OperatorTicketCountByPlaceDto> getCountTicketByPlace(Long placeId, LocalDateTime startDate, LocalDateTime endDate);
 
 }
