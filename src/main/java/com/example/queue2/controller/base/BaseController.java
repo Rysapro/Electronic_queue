@@ -1,11 +1,11 @@
 package com.example.queue2.controller.base;
 
-import com.example.queue2.controller.TicketController;
 import com.example.queue2.service.base.BaseService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -21,37 +21,41 @@ public abstract class BaseController<
         this.baseService = service;
     }
 
-    @GetMapping("/findById/{id}")
-    public RESPONSE_DTO findById(@PathVariable Long id){
-        return baseService.findById(id);
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<RESPONSE_DTO> allItems = baseService.findAll();
+        model.addAttribute("items", allItems);
+        return "list"; // list.html (в templates)
     }
 
-    @GetMapping("/findAll")
-    public List<RESPONSE_DTO> findAll(){
-        return baseService.findAll();
-    }
-
-    @GetMapping("/findAllWithPagination")
-    public Page<RESPONSE_DTO> findAllWithPagination(@PageableDefault(5) Pageable pageable){
-        return baseService.findAllWithPagination(pageable);
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        model.addAttribute("form", new Object()); // или можно новый DTO
+        return "create"; // create.html
     }
 
     @PostMapping("/save")
-    public RESPONSE_DTO save(@RequestBody REQUEST_DTO model){
-        return baseService.create(model);
+    public String save(@ModelAttribute("form") REQUEST_DTO model) {
+        baseService.create(model);
+        return "redirect:/user/list";
     }
 
-    @PutMapping("/update/{id}")
-    public RESPONSE_DTO update(@RequestBody REQUEST_DTO model, @PathVariable Long id){
-        return baseService.update(id, model);
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        RESPONSE_DTO dto = baseService.findById(id);
+        model.addAttribute("form", dto);
+        return "edit"; // edit.html
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id){
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute("form") REQUEST_DTO model) {
+        baseService.update(id, model);
+        return "redirect:/user/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
         baseService.deleteById(id);
-    }
-
-    protected TicketController getService() {
-        return (TicketController) baseService;
+        return "redirect:/user/list";
     }
 }
