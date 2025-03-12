@@ -15,6 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Пользователь")
 public class UserController extends BaseController<User, UserRequestDto, UserResponseDto, UserService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected UserRequestDto createEmptyDto() {
+        return null;
+    }
+
     public UserController(UserService userService) {
         super(userService);
     }

@@ -13,6 +13,16 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController extends BaseController<Ticket, TicketRequestDto, TicketResponseDto, TicketService> {
 
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected TicketRequestDto createEmptyDto() {
+        return null;
+    }
+
     public WebSocketController(TicketService service) {
         super(service);
     }

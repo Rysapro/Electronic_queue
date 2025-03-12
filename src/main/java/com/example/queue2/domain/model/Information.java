@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Information extends BaseEntity {
+    public class Information extends BaseEntity {
 
-    @Column(name = "declaration", unique = true)
-    private String declaration;
-}
+        @Column(name = "declaration", unique = true)
+        private String declaration;
+    }

@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Страница")
 public class PageController extends BaseController<PageForRole, PageRequestDto, PageResponseDto, PageService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected PageRequestDto createEmptyDto() {
+        return null;
+    }
+
     public PageController(PageService pageService) {
         super(pageService);
     }

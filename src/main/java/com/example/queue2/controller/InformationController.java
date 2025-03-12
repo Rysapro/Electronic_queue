@@ -6,12 +6,16 @@ import com.example.queue2.domain.dto.InformationResponseDTO;
 import com.example.queue2.domain.model.Information;
 import com.example.queue2.service.InformationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/information")
@@ -22,22 +26,51 @@ public class InformationController extends BaseController<Information, Informati
         super(service);
     }
 
-/*    @Override
-    public String list(Model model) {
-        model.addAttribute("form", new InformationRequestDTO(""));
-        return "information/create";
-    }*/
-
     @Override
-    @GetMapping("/create")
-    public String createForm(Model model) {
-        model.addAttribute("form", new InformationRequestDTO(""));
-        return "information/create";
+    protected String getBasePath() {
+        return "information";
     }
 
     @Override
+    protected InformationRequestDTO createEmptyDto() {
+        return new InformationRequestDTO(null);
+    }
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<InformationResponseDTO> allItems = baseService.findAll();
+        model.addAttribute("items", allItems);
+        return "list"; // list.html (в templates)
+    }
+
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        model.addAttribute("form", createEmptyDto()); // Создаем пустой DTO через абстрактный метод
+        return "create"; // create.html
+    }
+
     @PostMapping("/save")
     public String save(@ModelAttribute("form") InformationRequestDTO model) {
-        return super.save(model);
+        baseService.create(model);
+        System.out.println("Сохранение прошло успешно");
+        return "redirect:/information/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        InformationResponseDTO dto = baseService.findById(id);
+        model.addAttribute("form", dto);
+        return "edit"; // edit.html
+    }
+
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute("form") InformationRequestDTO model) {
+        baseService.update(id, model);
+        return "redirect:/information/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        baseService.deleteById(id);
+        return "redirect:/information/list";
     }
 }

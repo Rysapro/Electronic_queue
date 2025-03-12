@@ -24,7 +24,7 @@ public class PlaceServiceImpl extends BaseServiceImpl<Place, PlaceRequestDto, Pl
 
     @Override
     public Place toEntity(PlaceRequestDto dto) {
-        return new Place(dto.name(), dto.address(), dto.code());
+        return new Place(dto.placeName(), dto.address(), dto.code());
     }
 
     @Override

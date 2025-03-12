@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "окно")
 public class WindowController extends BaseController<Window, WindowRequestDto, WindowResponseDto, WindowService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected WindowRequestDto createEmptyDto() {
+        return null;
+    }
+
     public WindowController(WindowService windowService) {
         super(windowService);
     }

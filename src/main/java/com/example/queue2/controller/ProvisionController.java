@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Услуги")
 public class ProvisionController extends BaseController<Provision, ProvisionRequestDto, ProvisionResponseDto, ProvisionService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected ProvisionRequestDto createEmptyDto() {
+        return null;
+    }
+
     public ProvisionController(ProvisionService provisionService) {
         super(provisionService);
     }

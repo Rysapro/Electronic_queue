@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name="Статус талона")
 public class TicketStatusController extends BaseController<TicketStatus, TicketStatusRequestDto, TicketStatusResponseDto, TicketStatusService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected TicketStatusRequestDto createEmptyDto() {
+        return null;
+    }
+
     public TicketStatusController(TicketStatusService ticketStatusService) {
         super(ticketStatusService);
     }

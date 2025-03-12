@@ -21,6 +21,16 @@ import java.util.List;
 @Tag(name = "билет")
 public class TicketController extends BaseController<Ticket, TicketRequestDto, TicketResponseDto, TicketService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected TicketRequestDto createEmptyDto() {
+        return null;
+    }
+
     public TicketController(TicketService ticketService) {
         super(ticketService);
     }

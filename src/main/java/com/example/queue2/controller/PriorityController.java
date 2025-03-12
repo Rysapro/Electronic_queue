@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Приоритет")
 public class PriorityController extends BaseController<Priority, PriorityRequestDto, PriorityResponseDto, PriorityService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected PriorityRequestDto createEmptyDto() {
+        return null;
+    }
+
     public PriorityController(PriorityService priorityService) {
         super(priorityService);
     }

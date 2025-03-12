@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-public abstract class BaseController<
-        ENTITY,
-        REQUEST_DTO,
-        RESPONSE_DTO,
-        SERVICE extends BaseService<ENTITY, REQUEST_DTO, RESPONSE_DTO>> {
+public abstract class BaseController<ENTITY, REQUEST_DTO, RESPONSE_DTO, SERVICE extends BaseService<ENTITY, REQUEST_DTO, RESPONSE_DTO>> {
 
     protected final SERVICE baseService;
+    protected abstract String getBasePath();
+    protected abstract REQUEST_DTO createEmptyDto();
 
     public BaseController(SERVICE service) {
         this.baseService = service;
@@ -30,14 +28,14 @@ public abstract class BaseController<
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("form", new Object()); // или можно новый DTO
+        model.addAttribute("form", createEmptyDto()); // Создаем пустой DTO через абстрактный метод
         return "create"; // create.html
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute("form") REQUEST_DTO model) {
         baseService.create(model);
-        return "redirect:/user/list";
+        return "redirect:" + getBasePath() + "/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -50,12 +48,12 @@ public abstract class BaseController<
     @PostMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") REQUEST_DTO model) {
         baseService.update(id, model);
-        return "redirect:/user/list";
+        return "redirect:" + getBasePath() + "/list";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         baseService.deleteById(id);
-        return "redirect:/user/list";
+        return "redirect:" + getBasePath() + "/list";
     }
 }

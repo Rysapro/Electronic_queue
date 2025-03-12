@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Роли")
 public class RoleController extends BaseController<Role, RoleRequestDto, RoleResponseDto, RoleService> {
 
+    @Override
+    protected String getBasePath() {
+        return "";
+    }
+
+    @Override
+    protected RoleRequestDto createEmptyDto() {
+        return null;
+    }
+
     public RoleController(RoleService roleService) {
         super(roleService);
     }
