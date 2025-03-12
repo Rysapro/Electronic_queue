@@ -26,10 +26,10 @@ public abstract class BaseController<ENTITY, REQUEST_DTO, RESPONSE_DTO, SERVICE 
         return "list"; // list.html (в templates)
     }
 
-    @GetMapping("/create")
+    @GetMapping("create")
     public String createForm(Model model) {
         model.addAttribute("form", createEmptyDto()); // Создаем пустой DTO через абстрактный метод
-        return "create"; // create.html
+        return "create"; // info-create.html
     }
 
     @PostMapping("/save")

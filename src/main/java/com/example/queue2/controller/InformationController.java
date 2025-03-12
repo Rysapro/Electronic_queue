@@ -6,7 +6,6 @@ import com.example.queue2.domain.dto.InformationResponseDTO;
 import com.example.queue2.domain.model.Information;
 import com.example.queue2.service.InformationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,24 +34,25 @@ public class InformationController extends BaseController<Information, Informati
     protected InformationRequestDTO createEmptyDto() {
         return new InformationRequestDTO(null);
     }
-    @GetMapping("/list")
+
+    @GetMapping("/info-list")
     public String list(Model model) {
         List<InformationResponseDTO> allItems = baseService.findAll();
         model.addAttribute("items", allItems);
-        return "list"; // list.html (в templates)
+        return "info-list"; // list.html (в templates)
     }
 
-    @GetMapping("/create")
+    @GetMapping("/info-create")
     public String createForm(Model model) {
         model.addAttribute("form", createEmptyDto()); // Создаем пустой DTO через абстрактный метод
-        return "create"; // create.html
+        return "info-create"; // info-create.html
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute("form") InformationRequestDTO model) {
         baseService.create(model);
         System.out.println("Сохранение прошло успешно");
-        return "redirect:/information/list";
+        return "redirect:/information/info-list";
     }
 
     @GetMapping("/edit/{id}")
@@ -65,12 +65,12 @@ public class InformationController extends BaseController<Information, Informati
     @PostMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") InformationRequestDTO model) {
         baseService.update(id, model);
-        return "redirect:/information/list";
+        return "redirect:/information/info-list";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         baseService.deleteById(id);
-        return "redirect:/information/list";
+        return "redirect:/information/info-list";
     }
 }
