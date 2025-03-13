@@ -1,4 +1,4 @@
-package com.example.queue2.domain.model;
+package com.example.queue2.config;
 
 import org.springframework.stereotype.Component;
 

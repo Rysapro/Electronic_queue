@@ -11,7 +11,7 @@ import com.example.queue2.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserResponseDto, UserRepository>implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserResponseDto, UserRepository> implements UserService {
 
     public UserServiceImpl(UserRepository repo) {
         super(repo);
@@ -23,6 +23,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserR
         user.setName(dto.name());
         user.setSurname(dto.surname());
         user.setPatronymic(dto.patronymic());
+        user.setPassword(dto.password());
         user.setBlocked(dto.blocked());
         user.setPlace(createEntityIfNotNull(
                 dto.placeId(), id -> {
@@ -42,8 +43,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserR
 
         return user;
     }
+
     private <T> T createEntityIfNotNull(Long id, java.util.function.Function<Long, T> constructor) {
-        return id != null ? constructor.apply(id) : null;}
+        return id != null ? constructor.apply(id) : null;
+    }
 
     @Override
     public UserResponseDto toDTO(User entity) {
@@ -51,10 +54,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRequestDto, UserR
                 entity.getId(),
                 entity.getName(),
                 entity.getSurname(),
+                entity.getPatronymic(),
+                entity.getPassword(),
                 entity.getBlocked(),
                 entity.getPlace() != null ? new UserResponseDto.PlaceDto(
                         entity.getPlace().getId(),
-                        entity.getPlace().getPlaceName()) : null
-                );
+                        entity.getPlace().getName()) : null,
+                entity.getRole() != null ? new UserResponseDto.RoleDto(
+                        entity.getRole().getId(),
+                        entity.getRole().getName()) : null
+        );
+
     }
 }

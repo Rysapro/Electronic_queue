@@ -16,6 +16,7 @@ public class InformationServiceImpl extends BaseServiceImpl<Information, Informa
         super(repo);
     }
 
+
     @Override
     public Information toEntity(InformationRequestDTO dto) {
         return new Information(dto.declaration());

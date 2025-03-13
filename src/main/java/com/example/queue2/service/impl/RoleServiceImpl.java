@@ -18,13 +18,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleRequestDto, RoleR
         super(repo);
     }
 
-
     @Override
     public Role toEntity(RoleRequestDto dto) {
         return new Role(dto.name(), List.of(new PageForRole(dto.page().name())));
     }
-
-
 
     @Override
     public RoleResponseDto toDTO(Role entity) {

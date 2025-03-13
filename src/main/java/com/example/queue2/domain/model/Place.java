@@ -13,7 +13,7 @@ import lombok.*;
 public class Place extends BaseEntity {
 
     @Column(name = "place_name", unique = true)
-    private String placeName;
+    private String name;
     @Column(name = "address", unique = true)
     private String address;
     @Column(name ="code", unique = true)

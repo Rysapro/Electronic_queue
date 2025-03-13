@@ -45,7 +45,7 @@
                            placeholder="Введите название места"
                            required>
                     <div class="form-text">Введите уникальное название места</div>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name()}">
                         Ошибка ввода названия места
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="form-footer d-flex justify-content-between">
-                    <a th:href="@{/place/list}" class="btn btn-outline-secondary">
+                    <a th:href="@{/place/place-list}" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left"></i> Назад к списку
                     </a>
                     <button type="submit" class="btn btn-primary">
@@ -91,7 +91,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <a th:href="@{/place/list}" class="text-decoration-none">
+        <a th:href="@{/place/place-list}" class="text-decoration-none">
             &larr; Вернуться к списку мест
         </a>
     </div>

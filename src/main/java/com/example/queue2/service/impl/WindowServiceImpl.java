@@ -1,6 +1,5 @@
 package com.example.queue2.service.impl;
 
-import com.example.queue2.domain.dto.ProvisionResponseDto;
 import com.example.queue2.domain.dto.WindowRequestDto;
 import com.example.queue2.domain.dto.WindowResponseDto;
 import com.example.queue2.domain.model.Place;
@@ -50,7 +49,7 @@ public class WindowServiceImpl extends BaseServiceImpl<Window, WindowRequestDto,
                 entity.getNumber(),
                 entity.getPlace() != null ? new WindowResponseDto.PlaceDto(
                         entity.getPlace().getId(),
-                        entity.getPlace().getPlaceName()) : null,
+                        entity.getPlace().getName()) : null,
                 entity.getProcessedTicket() != null ? new WindowResponseDto.TicketDto(
                         entity.getProcessedTicket().getId(),
                         entity.getProcessedTicket().getNumber()) : null,

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование талона</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .container { max-width: 800px; }
+        .form-select-lg, .form-control-lg { font-size: 1rem; }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h2 class="mb-0">Редактирование талона</h2>
+        </div>
+
+        <div class="card-body">
+            <form th:action="@{/ticket/update/{id}(id=${form.id()})}" th:object="${form}" method="post">
+                <div class="mb-4">
+                    <label for="place" class="form-label fw-bold">Место работы</label>
+                    <select class="form-select form-select-lg"
+                            id="place"
+                            th:field="*{place}"
+                            required>
+                        <option value="">Выберите место работы</option>
+                        <option th:each="place : ${places}"
+                                th:value="${place.id}"
+                                th:text="${place.name}">
+                        </option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('place')}" th:errors="*{place}">
+                        Ошибка выбора места работы
+                    </div>
+
+                <div class="mb-4">
+                    <label for="provision" class="form-label fw-bold">Услуга</label>
+                    <select class="form-select form-select-lg"
+                            id="provision"
+                            th:field="*{provision}"
+                            required>
+                        <option value="">Выберите услугу</option>
+                        <option th:each="provision : ${provisions}"
+                                th:value="${provision.id}"
+                                th:text="${provision.name}"
+                                th:selected="${provision.id == form.provision()}">
+                        </option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('provision')}" th:errors="*{provision}"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="information" class="form-label fw-bold">Информация</label>
+                    <select class="form-select form-select-lg"
+                            id="information"
+                            th:field="*{information}">
+                        <option value="">Выберите информацию</option>
+                        <option th:each="information : ${informations}"
+                                th:value="${information.id}"
+                                th:text="${information.declaration}"
+                                th:selected="${information.id == form.information()}">
+                        </option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('information')}" th:errors="*{information}"></div>
+                </div>
+
+
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a th:href="@{/ticket/ticket-list}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Назад к списку
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Сохранить изменения
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/ticket/ticket-list}" class="text-decoration-none">
+            &larr; Вернуться к списку талонов
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

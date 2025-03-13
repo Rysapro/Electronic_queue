@@ -47,6 +47,17 @@ public abstract class BaseServiceImpl<
         return toDTO(repo.save(entity));
     }
 
+/*
+    @Override
+    public RESPONSE_DTO update(Long id, REQUEST_DTO dto) {
+        ENTITY existingEntity = repo.findById(id).orElseThrow(() -> new RuntimeException("Not found!"));
+        updateEntityFromDto(existingEntity, dto);
+        return toDTO(repo.save(existingEntity));
+    }
+
+    protected abstract void updateEntityFromDto(ENTITY entity, REQUEST_DTO dto);
+*/
+
     @Override
     public void deleteById(Long id) {
         repo.deleteById(id);

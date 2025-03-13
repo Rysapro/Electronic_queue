@@ -2,7 +2,6 @@ package com.example.queue2.service.impl;
 
 import com.example.queue2.domain.dto.ProvisionRequestDto;
 import com.example.queue2.domain.dto.ProvisionResponseDto;
-import com.example.queue2.domain.dto.RoleResponseDto;
 import com.example.queue2.domain.model.Place;
 import com.example.queue2.domain.model.Provision;
 import com.example.queue2.repository.ProvisionRepository;
@@ -44,7 +43,7 @@ public class ProvisionServiceImpl extends BaseServiceImpl<Provision, ProvisionRe
                 entity.getPlace() != null
                         ? new ProvisionResponseDto.PlaceDto(
                                 entity.getPlace().getId(),
-                                entity.getPlace().getPlaceName()) : null
+                                entity.getPlace().getName()) : null
         );
     }
 }

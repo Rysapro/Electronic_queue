@@ -1,5 +1,6 @@
 package com.example.queue2.service.impl;
 
+import com.example.queue2.config.Counter;
 import com.example.queue2.domain.dto.TicketRequestDto;
 import com.example.queue2.domain.dto.TicketResponseDto;
 import com.example.queue2.domain.model.*;
@@ -72,6 +73,20 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                     return information;
                 }
         ));
+        ticket.setProvision(createEntityIfNotNull(
+                dto.provisionId(), id -> {
+                    Provision provision = new Provision();
+                    provision.setId(id);
+                    return provision;
+                }
+        ));
+        ticket.setTicketStatus(createEntityIfNotNull(
+                dto.ticketStatusId(), id -> {
+                    TicketStatus ticketStatus = new TicketStatus();
+                    ticketStatus.setId(id);
+                    return ticketStatus;
+                }
+        ));
         return ticket;
     }
 
@@ -93,7 +108,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                         entity.getOperatorId().getName()) : null,
                 entity.getPlace() != null ? new TicketResponseDto.PlaceDto(
                         entity.getPlace().getId(),
-                        entity.getPlace().getPlaceName()) : null,
+                        entity.getPlace().getName()) : null,
                 entity.getInformation() != null ? new TicketResponseDto.InformationDto(
                         entity.getInformation().getId(),
                         entity.getInformation().getDeclaration()) : null,
@@ -193,7 +208,7 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                         ? new TicketResponseDto.UserDto(ticket.getId(), ticket.getOperatorId().getName())
                         : null,
                 ticket.getPlace() != null
-                        ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getPlaceName())
+                        ? new TicketResponseDto.PlaceDto(ticket.getPlace().getId(), ticket.getPlace().getName())
                         : null,
                 ticket.getInformation() != null
                         ? new TicketResponseDto.InformationDto(ticket.getInformation().getId(), ticket.getInformation().getDeclaration())
@@ -228,6 +243,5 @@ public class TicketServiceImpl extends BaseServiceImpl<Ticket, TicketRequestDto,
                 .map(this::mapToTicketResponseDto)
                 .collect(Collectors.toList());
     }
-
 
 }

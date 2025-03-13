@@ -24,12 +24,12 @@ public class PlaceServiceImpl extends BaseServiceImpl<Place, PlaceRequestDto, Pl
 
     @Override
     public Place toEntity(PlaceRequestDto dto) {
-        return new Place(dto.placeName(), dto.address(), dto.code());
+        return new Place(dto.name(), dto.address(), dto.code());
     }
 
     @Override
     public PlaceResponseDto toDTO(Place entity) {
-        return new PlaceResponseDto(entity.getId(), entity.getPlaceName(), entity.getAddress(), entity.getCode());
+        return new PlaceResponseDto(entity.getId(), entity.getName(), entity.getAddress(), entity.getCode());
     }
 
     public List<PlaceTicketCountDto> getPending(){

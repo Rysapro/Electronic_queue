@@ -35,13 +35,6 @@ public class InformationController extends BaseController<Information, Informati
         return new InformationRequestDTO(null);
     }
 
-    @GetMapping("/info-list")
-    public String list(Model model) {
-        List<InformationResponseDTO> allItems = baseService.findAll();
-        model.addAttribute("items", allItems);
-        return "info-list"; // list.html (в templates)
-    }
-
     @GetMapping("/info-create")
     public String createForm(Model model) {
         model.addAttribute("form", createEmptyDto()); // Создаем пустой DTO через абстрактный метод
@@ -51,15 +44,21 @@ public class InformationController extends BaseController<Information, Informati
     @PostMapping("/save")
     public String save(@ModelAttribute("form") InformationRequestDTO model) {
         baseService.create(model);
-        System.out.println("Сохранение прошло успешно");
         return "redirect:/information/info-list";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/info-list")
+    public String list(Model model) {
+        List<InformationResponseDTO> allItems = baseService.findAll();
+        model.addAttribute("items", allItems);
+        return "info-list"; // list.html (в templates)
+    }
+
+    @GetMapping("/info-edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         InformationResponseDTO dto = baseService.findById(id);
         model.addAttribute("form", dto);
-        return "edit"; // edit.html
+        return "info-edit"; // edit.html
     }
 
     @PostMapping("/update/{id}")

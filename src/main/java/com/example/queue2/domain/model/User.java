@@ -27,6 +27,9 @@ public class User extends BaseEntity {
     @Column(name = "patronymic")
     private String patronymic;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "blocked")
     private Boolean blocked;
 
