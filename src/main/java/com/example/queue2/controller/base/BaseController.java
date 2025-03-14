@@ -2,10 +2,7 @@ package com.example.queue2.controller.base;
 
 import com.example.queue2.service.base.BaseService;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public abstract class BaseController<ENTITY, REQUEST_DTO, RESPONSE_DTO, SERVICE 
         return "edit"; // edit.html
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") REQUEST_DTO model) {
         baseService.update(id, model);
         return "redirect:" + getBasePath() + "/list";

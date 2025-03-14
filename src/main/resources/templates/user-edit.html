@@ -31,9 +31,10 @@
         </div>
 
         <div class="form-content">
-            <form th:action="@{/user/update/{id}(id=${form.id})}" th:object="${form}" method="post">
-                <input type="hidden" name="id" th:field="*{form.id}">
-
+            <form th:action="@{/user/update/{id}(id=${form.id})}"
+                  th:object="${form}"
+                  method="post">
+                <input type="hidden" name="_method" value="put">
                 <div class="mb-4">
                     <label for="name" class="form-label fw-bold">Имя</label>
                     <input type="text"
@@ -98,8 +99,8 @@
                 <div class="mb-4">
                     <label for="role" class="form-label fw-bold">Роль</label>
                     <select class="form-select form-select-lg"
-                            id="roleId"
-                            th:field="*{roleId}"
+                            id="role"
+                            th:field="*{role}"
                             required>
                         <option value="">Выберите роль</option>
                         <option th:each="role : ${roles}"
@@ -107,24 +108,24 @@
                                 th:text="${role.name}">
                         </option>
                     </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('roleId')}" th:errors="*{roleId}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">
                         Ошибка выбора роли
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label for="placeId" class="form-label fw-bold">Место работы</label>
+                    <label for="place" class="form-label fw-bold">Место работы</label>
                     <select class="form-select form-select-lg"
-                            id="placeId"
-                            th:field="*{placeId}"
+                            id="place"
+                            th:field="*{place}"
                             required>
                         <option value="">Выберите место работы</option>
                         <option th:each="place : ${places}"
                                 th:value="${place.id}"
-                                th:text="${place.placeName}">
+                                th:text="${place.name}">
                         </option>
                     </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('placeId')}" th:errors="*{placeId}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('place')}" th:errors="*{place}">
                         Ошибка выбора места работы
                     </div>
                 </div>

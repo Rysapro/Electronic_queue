@@ -72,7 +72,7 @@ public class UserController extends BaseController<User, UserRequestDto, UserRes
         return "user-edit";
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") UserRequestDto model) {
         baseService.update(id, model);
         return "redirect:/user/user-list";
