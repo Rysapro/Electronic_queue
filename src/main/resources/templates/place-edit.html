@@ -36,6 +36,7 @@
 
         <div class="form-content">
             <form th:action="@{/place/update/{id}(id=${form.id})}" th:object="${form}" method="post">
+                <input type="hidden" name="_method" value="put">
                 <div class="mb-4">
                     <label for="name" class="form-label fw-bold">Название места</label>
                     <input type="text"

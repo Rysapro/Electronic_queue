@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование роли</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .container {
+            max-width: 800px;
+        }
+        .form-header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .form-content {
+            padding: 20px;
+        }
+        .form-footer {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-top: 1px solid #dee2e6;
+            border-radius: 0 0 5px 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="form-header">
+            <h2 class="mb-0">Редактирование роли</h2>
+            <p class="text-muted mt-2 mb-0">Измените данные роли</p>
+        </div>
+
+        <div class="form-content">
+            <form th:action="@{/role/update/{id}(id=${form.id})}" th:object="${form}" method="post">
+                <input type="hidden" name="_method" value="put">
+
+                <div class="mb-4">
+                    <label for="name" class="form-label fw-bold">Название роли</label>
+                    <input type="text"
+                           class="form-control form-control-lg"
+                           id="name"
+                           th:field="*{name}"
+                           placeholder="Введите название роли"
+                           required>
+                    <div class="form-text">Введите уникальное название роли</div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        Ошибка ввода названия роли
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="pageId" class="form-label fw-bold">Доступная страница</label>
+                  <select class="form-select form-select-lg"
+                          id="pageId"
+                          th:field="*{pageId}"
+                          required>
+                      <option value="">Выберите страницу</option>
+                      <option th:each="page : ${pages}"
+                              th:value="${page.id}"
+                              th:text="${page.name}">
+                      </option>
+                  </select>
+                    <div class="form-text">Выберите страницу, к которой будет иметь доступ данная роль</div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('pageId')}" th:errors="*{pageId}">
+                        Ошибка выбора страницы
+                    </div>
+                </div>
+
+                <div class="form-footer d-flex justify-content-between">
+                    <a th:href="@{/role/role-list}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Назад к списку
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Сохранить изменения
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/role/role-list}" class="text-decoration-none">
+            &larr; Вернуться к списку ролей
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

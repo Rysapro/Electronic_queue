@@ -60,9 +60,9 @@
 
                 <div class="mb-4">
                     <label for="page" class="form-label fw-bold">Доступная страница</label>
-                    <select class="form-select form-select-lg"
-                            id="page"
-                            th:field="*{page}"
+                   <select class="form-select form-select-lg"
+                            id="pageId"
+                            th:field="*{pageId}"
                             required>
                         <option value="">Выберите страницу</option>
                         <option th:each="page : ${pages}"
@@ -71,7 +71,7 @@
                         </option>
                     </select>
                     <div class="form-text">Выберите страницу, к которой будет иметь доступ данная роль</div>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('page')}" th:errors="*{page}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('pageId')}" th:errors="*{pageId}">
                         Ошибка выбора страницы
                     </div>
                 </div>

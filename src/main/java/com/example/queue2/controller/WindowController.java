@@ -70,7 +70,7 @@ public class WindowController extends BaseController<Window, WindowRequestDto, W
         return "win-edit";
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") WindowRequestDto model) {
         baseService.update(id, model);
         return "redirect:/win/win-list";

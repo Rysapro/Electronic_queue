@@ -58,7 +58,7 @@ public class RoleController extends BaseController<Role, RoleRequestDto, RoleRes
         return "role-edit";
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") RoleRequestDto model) {
         baseService.update(id, model);
         return "redirect:/role/role-list";

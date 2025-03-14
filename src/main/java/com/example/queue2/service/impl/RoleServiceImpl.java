@@ -9,6 +9,7 @@ import com.example.queue2.service.RoleService;
 import com.example.queue2.service.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,7 +21,20 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleRequestDto, RoleR
 
     @Override
     public Role toEntity(RoleRequestDto dto) {
-        return new Role(dto.name(), List.of(new PageForRole(dto.page().name())));
+        Role role = new Role();
+        role.setName(dto.name());
+        role.setPage(Collections.singletonList(createEntityIfNotNull(
+                dto.pageId(), id -> {
+                    PageForRole page = new PageForRole();
+                    page.setId(id);
+                    return page;
+                }
+        )));
+
+        return role;
+    }
+    private <T> T createEntityIfNotNull(Long id, java.util.function.Function<Long, T> constructor) {
+        return id != null ? constructor.apply(id) : null;
     }
 
     @Override

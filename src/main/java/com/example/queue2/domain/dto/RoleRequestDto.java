@@ -1,7 +1,6 @@
 package com.example.queue2.domain.dto;
 
-public record RoleRequestDto(String name, PageDto page) {
+public record RoleRequestDto(String name, Long pageId) {
 
-    public record PageDto(Long id, String name) {
-    }
+
 }

@@ -65,7 +65,7 @@ public class PlaceController extends BaseController<Place, PlaceRequestDto, Plac
         return "place-edit";
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") PlaceRequestDto model) {
         baseService.update(id, model);
         return "redirect:/place/place-list";
